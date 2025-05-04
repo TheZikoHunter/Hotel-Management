@@ -6,7 +6,8 @@ CREATE TABLE personne (
     email_personne VARCHAR(100),
     dn_personne DATE,
     sexe_personne ENUM('masculin', 'feminin'),
-    nat_personne VARCHAR(30)
+    nat_personne VARCHAR(30),
+    status_personne ENUM('client', 'occupant')
 );
 
 CREATE TABLE client (
