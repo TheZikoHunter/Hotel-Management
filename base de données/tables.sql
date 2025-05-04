@@ -5,7 +5,7 @@ CREATE TABLE personne (
     tel_personne VARCHAR(20),
     email_personne VARCHAR(100),
     dn_personne DATE,
-    sexe_personne VARCHAR(3), -- 'mas' ou 'fem'
+    sexe_personne ENUM('masculin', 'feminin'),
     nat_personne VARCHAR(30)
 );
 
@@ -35,7 +35,9 @@ CREATE TABLE personnel(
     nom_personnel VARCHAR(30),
     pernom_personnel VARCHAR(30),
     dn_personnel DATE,
-    role_personnel VARCHAR(30),
+    role_personnel ENUM('chef_reception', 'agent_securite', 'guide', 'standardiste', 
+                        'caissier', 'receptionniste', 'bagagiste', 'voiturier', 'consierge',
+                        'gouvernante_generale', 'gouvernante', 'valet_chambre', 'femme_chambre'),
     est_disponible INT, --'0' ou '1'
     nom_utilisateur VARCHAR(40),
     mot_de_passe VARCHAR(100),
@@ -52,9 +54,9 @@ CREATE TABLE chef_reception(
         ON DELETE CASCADE
 );
 
-CREATE TABLE agentsecurite(
+CREATE TABLE agent_securite(
     id_personnel INT,
-    id_agentsecurite INT UNIQUE,
+    id_agent_securite INT UNIQUE,
     id_chef_reception INT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
@@ -148,7 +150,7 @@ CREATE TABLE reservation (
     fin_sejours DATE,
     nombre_adultes INT,
     nombre_enfants INT,
-    petit_dejouner_inclus INT, --'0' ou '1'
+    petit_dejouner_inclus ENUM('oui', 'non'),
     etat VARCHAR(10),
     id_client INT,
     id_receptionniste INT,
@@ -255,23 +257,4 @@ CREATE TABLE femme_chambre(
         ON UPDATE CASCADE
         ON DELETE CASCADE,
     FOREIGN KEY(id_gouvernante) REFERENCES gouvernante(id_gouvernante)
-);
-
-
-CREATE TABLE bagagiste(
-    id_personnel INT,
-    id_bagagiste INT UNIQUE,
-    PRIMARY KEY(id_personnel),
-    FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-);
-
-CREATE TABLE bagagiste(
-    id_personnel INT,
-    id_bagagiste INT UNIQUE,
-    PRIMARY KEY(id_personnel),
-    FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
 );
