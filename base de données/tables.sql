@@ -1,3 +1,5 @@
+CREATE DATABASE hotel;
+USE hotel;
 CREATE TABLE personne (
     id_personne INT AUTO_INCREMENT PRIMARY KEY,
     nom_personne VARCHAR(50),
@@ -12,7 +14,7 @@ CREATE TABLE personne (
 
 CREATE TABLE client (
     id_personne INT PRIMARY KEY,
-    id_client INT UNIQUE,
+    id_client INT UNIQUE AUTO_INCREMENT,
     FOREIGN KEY (id_personne) REFERENCES personne(id_personne)
         ON UPDATE CASCADE
         ON DELETE CASCADE
@@ -20,7 +22,7 @@ CREATE TABLE client (
 
 CREATE TABLE occupant (
     id_personne INT PRIMARY KEY,
-    id_occupant INT UNIQUE,
+    id_occupant INT UNIQUE AUTO_INCREMENT,
     FOREIGN KEY (id_personne) REFERENCES personne(id_personne)
         ON UPDATE CASCADE
         ON DELETE CASCADE
@@ -39,16 +41,16 @@ CREATE TABLE personnel(
     role_personnel ENUM('chef_reception', 'agent_securite', 'guide', 'standardiste', 
                         'caissier', 'receptionniste', 'bagagiste', 'voiturier', 'consierge',
                         'gouvernante_generale', 'gouvernante', 'valet_chambre', 'femme_chambre'),
-    est_disponible INT, --'0' ou '1'
+    est_disponible INT,
     nom_utilisateur VARCHAR(40),
     mot_de_passe VARCHAR(100),
     id_service INT,
-    FOREIGN KEY id_service REFERENCES service(id_service)
+    FOREIGN KEY (id_service) REFERENCES service(id_service)
 );
 
 CREATE TABLE chef_reception(
     id_personnel INT,
-    id_chef_reception INT UNIQUE,
+    id_chef_reception INT UNIQUE AUTO_INCREMENT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
         ON UPDATE CASCADE
@@ -57,7 +59,7 @@ CREATE TABLE chef_reception(
 
 CREATE TABLE agent_securite(
     id_personnel INT,
-    id_agent_securite INT UNIQUE,
+    id_agent_securite INT UNIQUE AUTO_INCREMENT,
     id_chef_reception INT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
@@ -68,7 +70,7 @@ CREATE TABLE agent_securite(
 
 CREATE TABLE guide(
     id_personnel INT,
-    id_guide INT UNIQUE,
+    id_guide INT UNIQUE AUTO_INCREMENT,
     id_chef_reception INT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
@@ -79,7 +81,7 @@ CREATE TABLE guide(
 
 CREATE TABLE standardiste(
     id_personnel INT,
-    id_standardiste INT UNIQUE,
+    id_standardiste INT UNIQUE AUTO_INCREMENT,
     id_chef_reception INT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
@@ -91,7 +93,7 @@ CREATE TABLE standardiste(
 
 CREATE TABLE caissier(
     id_personnel INT,
-    id_caissier INT UNIQUE,
+    id_caissier INT UNIQUE AUTO_INCREMENT,
     id_chef_reception INT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
@@ -102,7 +104,7 @@ CREATE TABLE caissier(
 
 CREATE TABLE receptionniste (
     id_personnel INT,
-    id_receptionniste INT UNIQUE,
+    id_receptionniste INT UNIQUE AUTO_INCREMENT,
     id_chef_reception INT,
     PRIMARY KEY (id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
@@ -113,7 +115,7 @@ CREATE TABLE receptionniste (
 
 CREATE TABLE bagagiste(
     id_personnel INT,
-    id_bagagiste INT UNIQUE,
+    id_bagagiste INT UNIQUE AUTO_INCREMENT,
     id_receptionniste INT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
@@ -124,7 +126,7 @@ CREATE TABLE bagagiste(
 
 CREATE TABLE voiturier(
     id_personnel INT,
-    id_voiturier INT UNIQUE,
+    id_voiturier INT UNIQUE AUTO_INCREMENT,
     id_receptionniste INT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
@@ -135,7 +137,7 @@ CREATE TABLE voiturier(
 
 CREATE TABLE consierge(
     id_personnel INT,
-    id_consierge INT UNIQUE,
+    id_consierge INT UNIQUE AUTO_INCREMENT,
     id_receptionniste INT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
@@ -145,7 +147,7 @@ CREATE TABLE consierge(
 );
 
 CREATE TABLE reservation (
-    id_reservation AUTO_INCREMENT PRIMARY KEY,
+    id_reservation INT PRIMARY KEY AUTO_INCREMENT,
     date_reservation DATE,
     debut_sejours DATE,
     fin_sejours DATE,
@@ -164,9 +166,9 @@ CREATE TABLE reservation (
 );
 
 CREATE TABLE chambre (
-    num_chambre PRIMARY KEY,
+    num_chambre INT PRIMARY KEY,
     type_chambre ENUM('single', 'double1lit', 'double2lit', 'triple3lit', 'triple2lit', 'suite', 'calme'),
-    est_netoyee INT, --'0' ou '1'
+    est_netoyee INT,
     etage INT
 );
 
@@ -199,28 +201,28 @@ CREATE TABLE demande(
     temps_de_demande TIME,
     num_chambre INT,
     id_service INT,
-    FOREIGN KEY num_chambre REFERENCES chambre(num_chambre)
+    FOREIGN KEY (num_chambre) REFERENCES chambre(num_chambre)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
-    FOREIGN KEY id_service REFERENCES service(id_service)
+    FOREIGN KEY (id_service) REFERENCES service(id_service)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
 CREATE TABLE tache(
-    id_tache INT PRIMARY KEY,
+    id_tache INT PRIMARY KEY AUTO_INCREMENT,
     etat_tache VARCHAR(10),
     temps_debut TIME,
     temps_completion TIME,
     id_demande INT,
     id_personnel INT,
-    FOREIGN KEY id_demande REFERENCES demande(id_demande),
-    FOREIGN KEY id_personnel REFERENCES personnel(id_personnel)
+    FOREIGN KEY (id_demande) REFERENCES demande(id_demande),
+    FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
 );
 
 CREATE TABLE gouvernante_generale(
     id_personnel INT,
-    id_gouvernante_generale INT UNIQUE,
+    id_gouvernante_generale INT UNIQUE AUTO_INCREMENT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
         ON UPDATE CASCADE
@@ -229,7 +231,7 @@ CREATE TABLE gouvernante_generale(
 
 CREATE TABLE gouvernante(
     id_personnel INT,
-    id_gouvernante INT UNIQUE,
+    id_gouvernante INT UNIQUE AUTO_INCREMENT,
     id_gouvernante_generale INT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
@@ -240,7 +242,7 @@ CREATE TABLE gouvernante(
 
 CREATE TABLE valet_chambre(
     id_personnel INT,
-    id_valet_chambre INT UNIQUE,
+    id_valet_chambre INT UNIQUE AUTO_INCREMENT,
     id_gouvernante INT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
@@ -251,7 +253,7 @@ CREATE TABLE valet_chambre(
 
 CREATE TABLE femme_chambre(
     id_personnel INT,
-    id_femme_chambre INT UNIQUE,
+    id_femme_chambre INT UNIQUE AUTO_INCREMENT,
     id_gouvernante INT,
     PRIMARY KEY(id_personnel),
     FOREIGN KEY (id_personnel) REFERENCES personnel(id_personnel)
