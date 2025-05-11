@@ -8,40 +8,40 @@ BEGIN
         INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'agent_securite' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO agent_securite (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'guide' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO guide (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'standardiste' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO standardiste (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'caissier' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO caissier (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'receptionniste' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO receptionniste (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'bagagiste' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO bagagiste (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'voiturier' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO voiturier (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'consierge' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO consierge (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'gouvernante_generale' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO gouvernante_generale (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'gouvernante' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO gouvernante (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'valet_chambre' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO valet_chambre (id_personnel) VALUES (NEW.id_personnel);
     END IF;
     IF NEW.role_personnel = 'femme_chambre' THEN
-        INSERT INTO chef_reception (id_personnel) VALUES (NEW.id_personnel);
+        INSERT INTO femme_chambre (id_personnel) VALUES (NEW.id_personnel);
     END IF;
 END$$
 

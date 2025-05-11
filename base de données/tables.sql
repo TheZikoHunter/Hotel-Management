@@ -36,7 +36,7 @@ CREATE TABLE service(
 CREATE TABLE personnel(
     id_personnel INT AUTO_INCREMENT PRIMARY KEY,
     nom_personnel VARCHAR(30),
-    pernom_personnel VARCHAR(30),
+    prenom_personnel VARCHAR(30),
     dn_personnel DATE,
     role_personnel ENUM('chef_reception', 'agent_securite', 'guide', 'standardiste', 
                         'caissier', 'receptionniste', 'bagagiste', 'voiturier', 'consierge',
