@@ -1,0 +1,135 @@
+package com.code.hetelview.servlet;
+
+import com.code.hetelview.dao.ReservationDAO;
+import com.code.hetelview.model.Employee;
+import com.code.hetelview.model.Reservation;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+/**
+ * Servlet for handling adding new reservations.
+ */
+@WebServlet(name = "addReservationServlet", value = "/add-reservation")
+public class AddReservationServlet extends HttpServlet {
+
+    private ReservationDAO reservationDAO;
+
+    @Override
+    public void init() throws ServletException {
+        reservationDAO = new ReservationDAO();
+    }
+
+    /**
+     * Handles GET requests to the add reservation page.
+     * Displays the form for adding a new reservation.
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+
+
+        if (session == null || session.getAttribute("employee") == null) {
+
+            response.sendRedirect("login");
+            return;
+        }
+
+        request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+    }
+
+    /**
+     * Handles POST requests for adding a new reservation.
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+
+        // Check if user is logged in
+        if (session == null || session.getAttribute("employee") == null) {
+            // User is not logged in, redirect to login page
+            response.sendRedirect("login");
+            return;
+        }
+
+        // Get form parameters
+        String guestName = request.getParameter("guestName");
+        String guestEmail = request.getParameter("guestEmail");
+        String guestPhone = request.getParameter("guestPhone");
+        String roomNumberStr = request.getParameter("roomNumber");
+        String checkInDateStr = request.getParameter("checkInDate");
+        String checkOutDateStr = request.getParameter("checkOutDate");
+        String status = request.getParameter("status");
+        String notes = request.getParameter("notes");
+
+        // Validate input
+        if (guestName == null || guestName.trim().isEmpty() ||
+            guestEmail == null || guestEmail.trim().isEmpty() ||
+            guestPhone == null || guestPhone.trim().isEmpty() ||
+            roomNumberStr == null || roomNumberStr.trim().isEmpty() ||
+            checkInDateStr == null || checkInDateStr.trim().isEmpty() ||
+            checkOutDateStr == null || checkOutDateStr.trim().isEmpty() ||
+            status == null || status.trim().isEmpty()) {
+
+            request.setAttribute("error", "All fields are required");
+            request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+            return;
+        }
+
+        try {
+            // Parse room number
+            int roomNumber = Integer.parseInt(roomNumberStr);
+
+            // Parse dates
+            Date checkInDate = Date.valueOf(checkInDateStr);
+            Date checkOutDate = Date.valueOf(checkOutDateStr);
+
+            // Validate check-out date is after check-in date
+            if (checkOutDate.before(checkInDate)) {
+                request.setAttribute("error", "Check-out date must be after check-in date");
+                request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+                return;
+            }
+
+            // Get employee from session
+            Employee employee = (Employee) session.getAttribute("employee");
+
+            // Create reservation object
+            Reservation reservation = new Reservation();
+            reservation.setGuestName(guestName);
+            reservation.setGuestEmail(guestEmail);
+            reservation.setGuestPhone(guestPhone);
+            reservation.setRoomNumber(roomNumber);
+            reservation.setCheckInDate(checkInDate);
+            reservation.setCheckOutDate(checkOutDate);
+            reservation.setStatus(status);
+            reservation.setCreatedBy(employee);
+            reservation.setNotes(notes != null ? notes : "");
+
+            // Add reservation to database
+            boolean success = reservationDAO.addReservation(reservation);
+
+            if (success) {
+                // Redirect to dashboard
+                response.sendRedirect("dashboard");
+            } else {
+                request.setAttribute("error", "Failed to add reservation. Please try again.");
+                request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+            }
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "Invalid room number");
+            request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+        } catch (IllegalArgumentException e) {
+            request.setAttribute("error", "Invalid date format");
+            request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+        }
+    }
+}
