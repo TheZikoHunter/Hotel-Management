@@ -174,6 +174,118 @@
             padding: 8px 16px;
             font-size: 0.9rem;
         }
+
+        /* Delete Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            opacity: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            min-width: 400px;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .modal-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .modal-body {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .modal-message {
+            color: #495057;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .modal-btn-cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        .modal-btn-cancel:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn-confirm {
+            background: #dc3545;
+            color: white;
+        }
+
+        .modal-btn-confirm:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -237,9 +349,9 @@
                                     <div class="action-buttons">
                                         <a href="employee-management?action=edit&id=${employee.id}" class="btn btn-warning">Edit</a>
                                         <c:if test="${sessionScope.employee.id != employee.id}">
-                                            <a href="employee-management?action=delete&id=${employee.id}" 
-                                               class="btn btn-danger"
-                                               onclick="return confirm('Are you sure you want to delete this employee?')">Delete</a>
+                                            <button type="button" 
+                                                    class="btn btn-danger"
+                                                    onclick="showDeleteModal('${employee.id}', '${employee.fullName}')">Delete</button>
                                         </c:if>
                                     </div>
                                 </td>
@@ -257,5 +369,74 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">⚠️</div>
+                <h3 class="modal-title">Confirm Deletion</h3>
+            </div>
+            <div class="modal-body">
+                <p class="modal-message">
+                    Are you sure you want to delete employee <strong id="employeeName"></strong>?
+                    <br><br>
+                    This action cannot be undone.
+                </p>
+                <div class="modal-actions">
+                    <button type="button" class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                    <button type="button" class="modal-btn modal-btn-confirm" onclick="confirmDelete()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden form for delete action -->
+    <form id="deleteForm" method="post" action="employee-management" style="display: none;">
+        <input type="hidden" name="action" value="delete">
+        <input type="hidden" name="id" id="deleteEmployeeId">
+    </form>
+
+    <script>
+        let employeeToDelete = null;
+
+        function showDeleteModal(employeeId, employeeName) {
+            employeeToDelete = employeeId;
+            document.getElementById('employeeName').textContent = employeeName;
+            const modal = document.getElementById('deleteModal');
+            modal.classList.add('show');
+            
+            // Focus trap for accessibility
+            const confirmBtn = modal.querySelector('.modal-btn-confirm');
+            confirmBtn.focus();
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteModal');
+            modal.classList.remove('show');
+            employeeToDelete = null;
+        }
+
+        function confirmDelete() {
+            if (employeeToDelete) {
+                document.getElementById('deleteEmployeeId').value = employeeToDelete;
+                document.getElementById('deleteForm').submit();
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('deleteModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDeleteModal();
+            }
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDeleteModal();
+            }
+        });
+    </script>
 </body>
 </html>

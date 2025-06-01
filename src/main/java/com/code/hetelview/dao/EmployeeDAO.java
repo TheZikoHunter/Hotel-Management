@@ -203,13 +203,23 @@ public class EmployeeDAO {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            // If password is being updated, hash it
+            // Get the existing employee to preserve the current password if needed
             Employee existingEmployee = session.get(Employee.class, employee.getId());
-            if (existingEmployee != null && !employee.getPassword().equals(existingEmployee.getPassword())) {
-                employee.setPassword(PasswordUtil.hashPassword(employee.getPassword()));
+            if (existingEmployee == null) {
+                return false;
             }
 
-            session.update(employee);
+            // Update fields
+            existingEmployee.setUsername(employee.getUsername());
+            existingEmployee.setFullName(employee.getFullName());
+            existingEmployee.setRole(employee.getRole());
+
+            // Only update password if a new password is provided and it's different
+            if (employee.getPassword() != null && !employee.getPassword().trim().isEmpty()) {
+                existingEmployee.setPassword(PasswordUtil.hashPassword(employee.getPassword()));
+            }
+
+            session.update(existingEmployee);
             transaction.commit();
             success = true;
         } catch (Exception e) {

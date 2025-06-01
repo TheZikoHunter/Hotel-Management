@@ -55,6 +55,105 @@
         .action-button:hover {
             transform: translateY(-1px);
         }
+
+        /* Custom Delete Confirmation Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.9) translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .modal-message {
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+        }
+
+        .modal-btn-cancel {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .modal-btn-cancel:hover {
+            background: #e5e7eb;
+        }
+
+        .modal-btn-delete {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .modal-btn-delete:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -122,6 +221,37 @@
         </div>
     </div>
 
+    <!-- Success/Error Messages -->
+    <% if (request.getParameter("success") != null) { %>
+    <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg" role="alert">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm font-medium"><%= request.getParameter("success") %></p>
+            </div>
+        </div>
+    </div>
+    <% } %>
+    
+    <% if (request.getParameter("error") != null) { %>
+    <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg" role="alert">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L10 8.586l1.293-1.293a1 1 0 001.414-1.414L10 5.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm font-medium"><%= request.getParameter("error") %></p>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
     <!-- Reservations Table -->
     <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
         <table class="min-w-full divide-y divide-gray-200 table-hover">
@@ -181,9 +311,8 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div class="flex space-x-3">
                         <a href="edit-reservation?id=<%= reservation.getId() %>" class="action-button text-blue-600 hover:text-blue-900">Edit</a>
-                        <a href="delete-reservation?id=<%= reservation.getId() %>"
-                           class="action-button text-red-600 hover:text-red-900"
-                           onclick="return confirm('Are you sure you want to delete this reservation?')">Delete</a>
+                        <button type="button" class="action-button text-red-600 hover:text-red-900 border-none bg-transparent cursor-pointer delete-btn"
+                                data-id="<%= reservation.getId() %>" data-name="<%= reservation.getGuestName() %>">Delete</button>
                     </div>
                 </td>
             </tr>
@@ -199,5 +328,97 @@
         </table>
     </div>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H8a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+        </div>
+        <h3 class="modal-title">Delete Reservation</h3>
+        <p class="modal-message">
+            Are you sure you want to delete the reservation for <strong id="guestName"></strong>? 
+            This action cannot be undone.
+        </p>
+        <div class="modal-actions">
+            <button type="button" class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+            <button type="button" class="modal-btn modal-btn-delete" onclick="confirmDelete()">Delete Reservation</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let reservationToDelete = null;
+
+    // Show delete confirmation modal
+    function showDeleteModal(reservationId, guestName) {
+        reservationToDelete = reservationId;
+        document.getElementById('guestName').textContent = guestName;
+        document.getElementById('deleteModal').classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    // Close delete confirmation modal
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.remove('active');
+        document.body.style.overflow = 'auto'; // Restore scrolling
+        reservationToDelete = null;
+    }
+
+    // Confirm delete action
+    function confirmDelete() {
+        if (reservationToDelete) {
+            // Create a form and submit it to delete the reservation
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'reservation-management';
+            
+            const actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = 'delete';
+            
+            const idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'id';
+            idInput.value = reservationToDelete;
+            
+            form.appendChild(actionInput);
+            form.appendChild(idInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('deleteModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeDeleteModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('deleteModal').classList.contains('active')) {
+            closeDeleteModal();
+        }
+    });
+
+    // Attach event listeners to delete buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const reservationId = this.getAttribute('data-id');
+                const guestName = this.getAttribute('data-name');
+                showDeleteModal(reservationId, guestName);
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

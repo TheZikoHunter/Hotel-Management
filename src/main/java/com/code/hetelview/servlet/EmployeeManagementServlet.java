@@ -93,6 +93,8 @@ public class EmployeeManagementServlet extends HttpServlet {
             addEmployee(request, response);
         } else if ("edit".equals(action)) {
             updateEmployee(request, response);
+        } else if ("delete".equals(action)) {
+            deleteEmployee(request, response);
         } else {
             listEmployees(request, response);
         }
@@ -230,16 +232,19 @@ public class EmployeeManagementServlet extends HttpServlet {
                 return;
             }
 
-            employee.setUsername(username.trim());
-            employee.setFullName(fullName.trim());
-            employee.setRole(role.trim());
+            // Create a new employee object for the update
+            Employee updatedEmployee = new Employee();
+            updatedEmployee.setId(id);
+            updatedEmployee.setUsername(username.trim());
+            updatedEmployee.setFullName(fullName.trim());
+            updatedEmployee.setRole(role.trim());
             
-            // Only update password if provided
+            // Only set password if provided (DAO will handle hashing)
             if (password != null && !password.trim().isEmpty()) {
-                employee.setPassword(password.trim());
+                updatedEmployee.setPassword(password.trim());
             }
 
-            if (employeeDAO.updateEmployee(employee)) {
+            if (employeeDAO.updateEmployee(updatedEmployee)) {
                 request.setAttribute("success", "Employee updated successfully");
                 listEmployees(request, response);
             } else {
