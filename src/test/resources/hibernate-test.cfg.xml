@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings for MySQL test database -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hotel_test?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">highlevel</property>
+        
+        <!-- MySQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        
+        <!-- Echo all executed SQL to stdout -->
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">false</property>
+        
+        <!-- Create tables on startup and drop on shutdown for testing -->
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+        
+        <!-- Connection pool -->
+        <property name="hibernate.connection.pool_size">1</property>
+        
+        <!-- Names the annotated entity classes -->
+        <mapping class="com.code.hetelview.model.Employee"/>
+        <mapping class="com.code.hetelview.model.Reservation"/>
+    </session-factory>
+</hibernate-configuration>

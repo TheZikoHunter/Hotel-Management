@@ -15,6 +15,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.source>21</maven.compiler.source>
         <junit.version>5.11.0</junit.version>
+        <mockito.version>5.14.2</mockito.version>
     </properties>
 
     <dependencies>
@@ -76,6 +77,35 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Mockito for mocking -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Add mockito-inline for Java 21+ compatibility -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- AssertJ for fluent assertions -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.24.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -99,17 +129,18 @@
                     <configuration>
                         <properties>
                             <cargo.servlet.port>8080</cargo.servlet.port>
-                            <cargo.logging>medium</cargo.logging>
                         </properties>
                     </configuration>
-                    <deployables>
-                        <deployable>
-                            <type>war</type>
-                            <properties>
-                                <context>/hotel</context>
-                            </properties>
-                        </deployable>
-                    </deployables>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Surefire Plugin for JUnit 5 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
             </plugin>
         </plugins>
