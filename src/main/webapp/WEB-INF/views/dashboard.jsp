@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hotel Management - Dashboard</title>
+    <title>Gestion Hôtelière - Tableau de Bord</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -167,7 +167,7 @@
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                 </div>
-                <span class="text-2xl font-serif">Hotel Management System</span>
+                <span class="text-2xl font-serif">Système de Gestion Hôtelière</span>
             </div>
             <div class="flex items-center space-x-6">
                 <div class="flex items-center space-x-2">
@@ -176,13 +176,13 @@
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                     </div>
-                    <span class="text-sm font-medium">Welcome, <%= session.getAttribute("employeeName") %></span>
+                    <span class="text-sm font-medium">Bienvenue, <%= session.getAttribute("employeeName") %></span>
                 </div>
                 <a href="logout" class="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors duration-150 ease-in-out flex items-center space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                     </svg>
-                    <span>Logout</span>
+                    <span>Déconnexion</span>
                 </a>
             </div>
         </div>
@@ -195,8 +195,8 @@
     <div class="mb-8">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-3xl font-serif text-hotel-charcoal">Reservations</h1>
-                <p class="mt-1 text-sm text-gray-500">Manage hotel reservations and guest bookings</p>
+                <h1 class="text-3xl font-serif text-hotel-charcoal">Réservations</h1>
+                <p class="mt-1 text-sm text-gray-500">Gérer les réservations d'hôtel et les réservations des clients</p>
             </div>
             <div class="flex space-x-4">
                 <%-- Show employee management link only for admin users --%>
@@ -208,7 +208,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
                     </svg>
-                    <span>Manage Employees</span>
+                    <span>Gérer les Employés</span>
                 </a>
                 <% } %>
                 <%-- Show add reservation button only for staff users --%>
@@ -217,7 +217,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                     </svg>
-                    <span>Add New Reservation</span>
+                    <span>Ajouter une Réservation</span>
                 </a>
                 <% } %>
             </div>
@@ -261,11 +261,11 @@
             <thead>
             <tr class="bg-gray-50">
                 <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Guest Name</th>
-                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Room</th>
-                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Check-in</th>
-                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Check-out</th>
-                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom du Client</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Chambre</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Arrivée</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Départ</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
                 <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
             </thead>
@@ -291,19 +291,19 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                     <% if (reservation.getStatus().equalsIgnoreCase("confirmed")) { %>
                     <span class="status-badge px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Confirmed
+                                    Confirmé
                                 </span>
                     <% } else if (reservation.getStatus().equalsIgnoreCase("checked-in")) { %>
                     <span class="status-badge px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                    Checked-in
+                                    Arrivé
                                 </span>
                     <% } else if (reservation.getStatus().equalsIgnoreCase("checked-out")) { %>
                     <span class="status-badge px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                    Checked-out
+                                    Parti
                                 </span>
                     <% } else if (reservation.getStatus().equalsIgnoreCase("cancelled")) { %>
                     <span class="status-badge px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                    Cancelled
+                                    Annulé
                                 </span>
                     <% } else { %>
                     <span class="status-badge px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
@@ -314,12 +314,12 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <% if (currentEmployee != null && "staff".equalsIgnoreCase(currentEmployee.getRole())) { %>
                     <div class="flex space-x-3">
-                        <a href="edit-reservation?id=<%= reservation.getId() %>" class="action-button text-blue-600 hover:text-blue-900">Edit</a>
+                        <a href="edit-reservation?id=<%= reservation.getId() %>" class="action-button text-blue-600 hover:text-blue-900">Modifier</a>
                         <button type="button" class="action-button text-red-600 hover:text-red-900 border-none bg-transparent cursor-pointer delete-btn"
-                                data-id="<%= reservation.getId() %>" data-name="<%= reservation.getGuestName() %>">Delete</button>
+                                data-id="<%= reservation.getId() %>" data-name="<%= reservation.getGuestName() %>">Supprimer</button>
                     </div>
                     <% } else { %>
-                    <span class="text-sm text-gray-500 italic">View only</span>
+                    <span class="text-sm text-gray-500 italic">Lecture seule</span>
                     <% } %>
                 </td>
             </tr>
@@ -328,7 +328,7 @@
             } else {
             %>
             <tr>
-                <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">No reservations found</td>
+                <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Aucune réservation trouvée</td>
             </tr>
             <% } %>
             </tbody>
@@ -344,14 +344,14 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H8a1 1 0 00-1 1v3M4 7h16" />
             </svg>
         </div>
-        <h3 class="modal-title">Delete Reservation</h3>
+        <h3 class="modal-title">Supprimer la Réservation</h3>
         <p class="modal-message">
-            Are you sure you want to delete the reservation for <strong id="guestName"></strong>? 
-            This action cannot be undone.
+            Êtes-vous sûr de vouloir supprimer la réservation de <strong id="guestName"></strong>? 
+            Cette action ne peut pas être annulée.
         </p>
         <div class="modal-actions">
-            <button type="button" class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Cancel</button>
-            <button type="button" class="modal-btn modal-btn-delete" onclick="confirmDelete()">Delete Reservation</button>
+            <button type="button" class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Annuler</button>
+            <button type="button" class="modal-btn modal-btn-delete" onclick="confirmDelete()">Supprimer la Réservation</button>
         </div>
     </div>
 </div>

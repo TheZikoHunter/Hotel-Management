@@ -39,6 +39,20 @@ public class DeleteReservationServlet extends HttpServlet {
     }
 
     /**
+     * Check if the user is a staff user (not an admin).
+     */
+    private boolean isStaffUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Employee employee = (Employee) session.getAttribute("employee");
+            if (employee != null) {
+                return !"admin".equals(employee.getRole());
+            }
+        }
+        return false;
+    }
+
+    /**
      * Handles GET requests for reservation deletion.
      */
     @Override
@@ -47,10 +61,16 @@ public class DeleteReservationServlet extends HttpServlet {
             return;
         }
 
+        // Check if user is staff (admins cannot delete reservations)
+        if (!isStaffUser(request)) {
+            response.sendRedirect("dashboard?error=Accès non autorisé");
+            return;
+        }
+
         String idParam = request.getParameter("id");
         
         if (idParam == null || idParam.trim().isEmpty()) {
-            response.sendRedirect("dashboard?error=Invalid reservation ID");
+            response.sendRedirect("dashboard?error=ID de réservation invalide");
             return;
         }
         
@@ -58,12 +78,12 @@ public class DeleteReservationServlet extends HttpServlet {
             int id = Integer.parseInt(idParam);
             
             if (reservationDAO.deleteReservation(id)) {
-                response.sendRedirect("dashboard?success=Reservation deleted successfully");
+                response.sendRedirect("dashboard?success=Réservation supprimée avec succès");
             } else {
-                response.sendRedirect("dashboard?error=Failed to delete reservation");
+                response.sendRedirect("dashboard?error=Échec de la suppression de la réservation");
             }
         } catch (NumberFormatException e) {
-            response.sendRedirect("dashboard?error=Invalid reservation ID");
+            response.sendRedirect("dashboard?error=ID de réservation invalide");
         }
     }
 }

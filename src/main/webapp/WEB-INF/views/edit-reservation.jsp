@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Reservation - Hotel Management System</title>
+    <title>Modifier la Réservation - Système de Gestion Hôtelière</title>
     <style>
         * {
             box-sizing: border-box;
@@ -180,8 +180,8 @@
 <body>
     <div class="form-container">
         <div class="form-header">
-            <h1>Edit Reservation</h1>
-            <p>Update reservation information</p>
+            <h1>Modifier la Réservation</h1>
+            <p>Mettre à jour les informations de réservation</p>
         </div>
 
         <c:if test="${not empty error}">
@@ -194,10 +194,10 @@
             <input type="hidden" name="id" value="${reservation.id}">
             
             <!-- Guest Information Section -->
-            <div class="section-title">Guest Information</div>
+            <div class="section-title">Informations du Client</div>
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="guestName">Guest Name <span class="required">*</span></label>
+                    <label for="guestName">Nom du Client <span class="required">*</span></label>
                     <input type="text" id="guestName" name="guestName" required 
                            value="${reservation.guestName}" placeholder="Enter guest name">
                 </div>
@@ -209,35 +209,35 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="guestPhone">Phone <span class="required">*</span></label>
+                    <label for="guestPhone">Téléphone <span class="required">*</span></label>
                     <input type="tel" id="guestPhone" name="guestPhone" required 
                            value="${reservation.guestPhone}" placeholder="Enter phone number">
                 </div>
 
                 <div class="form-group">
-                    <label for="roomNumber">Room Number <span class="required">*</span></label>
+                    <label for="roomNumber">Numéro de Chambre <span class="required">*</span></label>
                     <input type="number" id="roomNumber" name="roomNumber" min="1" required 
                            value="${reservation.roomNumber}" placeholder="Enter room number">
                 </div>
             </div>
 
             <!-- Reservation Details Section -->
-            <div class="section-title">Reservation Details</div>
+            <div class="section-title">Détails de la Réservation</div>
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="checkInDate">Check-in Date <span class="required">*</span></label>
+                    <label for="checkInDate">Date d'Arrivée <span class="required">*</span></label>
                     <input type="date" id="checkInDate" name="checkInDate" required 
                            value="${reservation.checkInDate}">
                 </div>
 
                 <div class="form-group">
-                    <label for="checkOutDate">Check-out Date <span class="required">*</span></label>
+                    <label for="checkOutDate">Date de Départ <span class="required">*</span></label>
                     <input type="date" id="checkOutDate" name="checkOutDate" required 
                            value="${reservation.checkOutDate}">
                 </div>
 
                 <div class="form-group">
-                    <label for="status">Status <span class="required">*</span></label>
+                    <label for="status">Statut <span class="required">*</span></label>
                     <select id="status" name="status" required>
                         <option value="">Select status</option>
                         <option value="Confirmed" ${reservation.status == 'Confirmed' ? 'selected' : ''}>Confirmed</option>

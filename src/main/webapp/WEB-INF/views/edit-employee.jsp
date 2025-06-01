@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Employee - Hotel Management System</title>
+    <title>Modifier l'Employé - Système de Gestion Hôtelière</title>
     <style>
         * {
             box-sizing: border-box;
@@ -143,8 +143,8 @@
 <body>
     <div class="form-container">
         <div class="form-header">
-            <h1>Edit Employee</h1>
-            <p>Update employee information</p>
+            <h1>Modifier l'Employé</h1>
+            <p>Mettre à jour les informations de l'employé</p>
         </div>
 
         <c:if test="${not empty error}">
@@ -158,36 +158,36 @@
             <input type="hidden" name="id" value="${employee.id}">
             
             <div class="form-group">
-                <label for="username">Username <span class="required">*</span></label>
+                <label for="username">Nom d'utilisateur <span class="required">*</span></label>
                 <input type="text" id="username" name="username" required 
-                       value="${employee.username}" placeholder="Enter username">
+                       value="${employee.username}" placeholder="Entrer le nom d'utilisateur">
             </div>
 
             <div class="form-group">
-                <label for="password">New Password</label>
+                <label for="password">Nouveau Mot de passe</label>
                 <input type="password" id="password" name="password" 
-                       placeholder="Leave blank to keep current password">
-                <div class="password-note">Leave blank if you don't want to change the password</div>
+                       placeholder="Laisser vide pour conserver le mot de passe actuel">
+                <div class="password-note">Laisser vide si vous ne voulez pas changer le mot de passe</div>
             </div>
 
             <div class="form-group">
-                <label for="fullName">Full Name <span class="required">*</span></label>
+                <label for="fullName">Nom complet <span class="required">*</span></label>
                 <input type="text" id="fullName" name="fullName" required 
-                       value="${employee.fullName}" placeholder="Enter full name">
+                       value="${employee.fullName}" placeholder="Entrer le nom complet">
             </div>
 
             <div class="form-group">
-                <label for="role">Role <span class="required">*</span></label>
+                <label for="role">Rôle <span class="required">*</span></label>
                 <select id="role" name="role" required>
-                    <option value="">Select role</option>
+                    <option value="">Sélectionner le rôle</option>
                     <option value="admin" ${employee.role == 'admin' ? 'selected' : ''}>Admin</option>
-                    <option value="staff" ${employee.role == 'staff' ? 'selected' : ''}>Staff</option>
+                    <option value="staff" ${employee.role == 'staff' ? 'selected' : ''}>Personnel</option>
                 </select>
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn">Update Employee</button>
-                <a href="employee-management" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn">Mettre à jour l'Employé</button>
+                <a href="employee-management" class="btn btn-secondary">Annuler</a>
             </div>
         </form>
     </div>

@@ -80,14 +80,14 @@ public class EditReservationServlet extends HttpServlet {
             Reservation reservation = reservationDAO.getReservationById(id);
             
             if (reservation == null) {
-                response.sendRedirect("dashboard?error=Reservation not found");
+                response.sendRedirect("dashboard?error=Réservation non trouvée");
                 return;
             }
             
             request.setAttribute("reservation", reservation);
             request.getRequestDispatcher("/WEB-INF/views/edit-reservation.jsp").forward(request, response);
         } catch (NumberFormatException e) {
-            response.sendRedirect("dashboard?error=Invalid reservation ID");
+            response.sendRedirect("dashboard?error=ID de réservation invalide");
         }
     }
 
@@ -137,7 +137,7 @@ public class EditReservationServlet extends HttpServlet {
             // Get the existing reservation
             Reservation reservation = reservationDAO.getReservationById(id);
             if (reservation == null) {
-                response.sendRedirect("dashboard?error=Reservation not found");
+                response.sendRedirect("dashboard?error=Réservation non trouvée");
                 return;
             }
 
@@ -148,7 +148,7 @@ public class EditReservationServlet extends HttpServlet {
 
             // Validate check-out date is after check-in date
             if (checkOutDate.before(checkInDate)) {
-                request.setAttribute("error", "Check-out date must be after check-in date");
+                request.setAttribute("error", "La date de départ doit être postérieure à la date d'arrivée");
                 request.setAttribute("reservation", reservation);
                 request.getRequestDispatcher("/WEB-INF/views/edit-reservation.jsp").forward(request, response);
                 return;
@@ -165,14 +165,14 @@ public class EditReservationServlet extends HttpServlet {
             reservation.setNotes(notes != null ? notes.trim() : "");
 
             if (reservationDAO.updateReservation(reservation)) {
-                response.sendRedirect("dashboard?success=Reservation updated successfully");
+                response.sendRedirect("dashboard?success=Réservation mise à jour avec succès");
             } else {
                 request.setAttribute("error", "Failed to update reservation");
                 request.setAttribute("reservation", reservation);
                 request.getRequestDispatcher("/WEB-INF/views/edit-reservation.jsp").forward(request, response);
             }
         } catch (NumberFormatException e) {
-            request.setAttribute("error", "Invalid room number");
+            request.setAttribute("error", "Numéro de chambre invalide");
             try {
                 int id = Integer.parseInt(idParam);
                 Reservation reservation = reservationDAO.getReservationById(id);
@@ -182,7 +182,7 @@ public class EditReservationServlet extends HttpServlet {
                 response.sendRedirect("dashboard?error=Invalid reservation ID");
             }
         } catch (IllegalArgumentException e) {
-            request.setAttribute("error", "Invalid date format");
+            request.setAttribute("error", "Format de date invalide");
             try {
                 int id = Integer.parseInt(idParam);
                 Reservation reservation = reservationDAO.getReservationById(id);

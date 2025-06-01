@@ -69,7 +69,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("dashboard");
         } else {
 
-            request.setAttribute("error", "Invalid username or password");
+            request.setAttribute("error", "Nom d'utilisateur ou mot de passe invalide");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
         }
     }

@@ -39,7 +39,7 @@ public class EmployeeManagementServlet extends HttpServlet {
         
         Employee currentEmployee = (Employee) session.getAttribute("employee");
         if (!"admin".equalsIgnoreCase(currentEmployee.getRole())) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied. Admin privileges required.");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Accès refusé. Privilèges administrateur requis.");
             return false;
         }
         
@@ -132,7 +132,7 @@ public class EmployeeManagementServlet extends HttpServlet {
             Employee employee = employeeDAO.getEmployeeById(id);
             
             if (employee == null) {
-                request.setAttribute("error", "Employee not found");
+                request.setAttribute("error", "Employé introuvable");
                 listEmployees(request, response);
                 return;
             }
@@ -159,14 +159,14 @@ public class EmployeeManagementServlet extends HttpServlet {
             fullName == null || fullName.trim().isEmpty() ||
             role == null || role.trim().isEmpty()) {
             
-            request.setAttribute("error", "All fields are required");
+            request.setAttribute("error", "Tous les champs sont obligatoires");
             request.getRequestDispatcher("/WEB-INF/views/add-employee.jsp").forward(request, response);
             return;
         }
 
         // Check if username already exists
         if (employeeDAO.getEmployeeByUsername(username) != null) {
-            request.setAttribute("error", "Username already exists");
+            request.setAttribute("error", "Nom d'utilisateur déjà existant");
             request.getRequestDispatcher("/WEB-INF/views/add-employee.jsp").forward(request, response);
             return;
         }
@@ -178,10 +178,10 @@ public class EmployeeManagementServlet extends HttpServlet {
         employee.setRole(role.trim());
 
         if (employeeDAO.addEmployee(employee)) {
-            request.setAttribute("success", "Employee added successfully");
+            request.setAttribute("success", "Employé ajouté avec succès");
             listEmployees(request, response);
         } else {
-            request.setAttribute("error", "Failed to add employee");
+            request.setAttribute("error", "Échec de l'ajout de l'employé");
             request.getRequestDispatcher("/WEB-INF/views/add-employee.jsp").forward(request, response);
         }
     }
@@ -209,7 +209,7 @@ public class EmployeeManagementServlet extends HttpServlet {
                 fullName == null || fullName.trim().isEmpty() ||
                 role == null || role.trim().isEmpty()) {
                 
-                request.setAttribute("error", "Username, full name, and role are required");
+                request.setAttribute("error", "Nom d'utilisateur, nom complet et rôle sont obligatoires");
                 Employee employee = employeeDAO.getEmployeeById(id);
                 request.setAttribute("employee", employee);
                 request.getRequestDispatcher("/WEB-INF/views/edit-employee.jsp").forward(request, response);
@@ -218,7 +218,7 @@ public class EmployeeManagementServlet extends HttpServlet {
 
             Employee employee = employeeDAO.getEmployeeById(id);
             if (employee == null) {
-                request.setAttribute("error", "Employee not found");
+                request.setAttribute("error", "Employé introuvable");
                 listEmployees(request, response);
                 return;
             }
@@ -226,7 +226,7 @@ public class EmployeeManagementServlet extends HttpServlet {
             // Check if username is being changed and if it already exists
             if (!employee.getUsername().equals(username.trim()) && 
                 employeeDAO.getEmployeeByUsername(username.trim()) != null) {
-                request.setAttribute("error", "Username already exists");
+                request.setAttribute("error", "Nom d'utilisateur déjà existant");
                 request.setAttribute("employee", employee);
                 request.getRequestDispatcher("/WEB-INF/views/edit-employee.jsp").forward(request, response);
                 return;
@@ -245,10 +245,10 @@ public class EmployeeManagementServlet extends HttpServlet {
             }
 
             if (employeeDAO.updateEmployee(updatedEmployee)) {
-                request.setAttribute("success", "Employee updated successfully");
+                request.setAttribute("success", "Employé mis à jour avec succès");
                 listEmployees(request, response);
             } else {
-                request.setAttribute("error", "Failed to update employee");
+                request.setAttribute("error", "Échec de la mise à jour de l'employé");
                 request.setAttribute("employee", employee);
                 request.getRequestDispatcher("/WEB-INF/views/edit-employee.jsp").forward(request, response);
             }
@@ -275,15 +275,15 @@ public class EmployeeManagementServlet extends HttpServlet {
             HttpSession session = request.getSession();
             Employee currentEmployee = (Employee) session.getAttribute("employee");
             if (currentEmployee.getId() == id) {
-                request.setAttribute("error", "Cannot delete your own account");
+                request.setAttribute("error", "Impossible de supprimer votre propre compte");
                 listEmployees(request, response);
                 return;
             }
             
             if (employeeDAO.deleteEmployee(id)) {
-                request.setAttribute("success", "Employee deleted successfully");
+                request.setAttribute("success", "Employé supprimé avec succès");
             } else {
-                request.setAttribute("error", "Failed to delete employee");
+                request.setAttribute("error", "Échec de la suppression de l'employé");
             }
             
             listEmployees(request, response);

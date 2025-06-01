@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Management - Hotel Management System</title>
+    <title>Gestion des Employés - Système de Gestion Hôtelière</title>
     <style>
         * {
             box-sizing: border-box;
@@ -291,13 +291,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Employee Management</h1>
-            <p>Manage hotel staff and administrators</p>
+            <h1>Gestion des Employés</h1>
+            <p>Gérer le personnel et les administrateurs de l'hôtel</p>
         </div>
 
         <div class="nav-links">
-            <a href="dashboard">← Back to Dashboard</a>
-            <a href="employee-management">All Employees</a>
+            <a href="dashboard">← Retour au Tableau de Bord</a>
+            <a href="employee-management">Tous les Employés</a>
         </div>
 
         <div class="content">
@@ -314,8 +314,8 @@
             </c:if>
 
             <div class="actions">
-                <h2>All Employees</h2>
-                <a href="employee-management?action=add" class="btn">+ Add New Employee</a>
+                <h2>Tous les Employés</h2>
+                <a href="employee-management?action=add" class="btn">+ Ajouter un Nouvel Employé</a>
             </div>
 
             <div class="table-container">
@@ -323,9 +323,9 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Username</th>
-                            <th>Full Name</th>
-                            <th>Role</th>
+                            <th>Nom d'utilisateur</th>
+                            <th>Nom complet</th>
+                            <th>Rôle</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -347,11 +347,11 @@
                                 </td>
                                 <td>
                                     <div class="action-buttons">
-                                        <a href="employee-management?action=edit&id=${employee.id}" class="btn btn-warning">Edit</a>
+                                        <a href="employee-management?action=edit&id=${employee.id}" class="btn btn-warning">Modifier</a>
                                         <c:if test="${sessionScope.employee.id != employee.id}">
                                             <button type="button" 
                                                     class="btn btn-danger"
-                                                    onclick="showDeleteModal('${employee.id}', '${employee.fullName}')">Delete</button>
+                                                    onclick="showDeleteModal('${employee.id}', '${employee.fullName}')">Supprimer</button>
                                         </c:if>
                                     </div>
                                 </td>
@@ -360,7 +360,7 @@
                         <c:if test="${empty employees}">
                             <tr>
                                 <td colspan="5" style="text-align: center; padding: 30px; color: #6c757d;">
-                                    No employees found.
+                                    Aucun employé trouvé.
                                 </td>
                             </tr>
                         </c:if>
@@ -375,17 +375,17 @@
         <div class="modal">
             <div class="modal-header">
                 <div class="modal-icon">⚠️</div>
-                <h3 class="modal-title">Confirm Deletion</h3>
+                <h3 class="modal-title">Confirmer la Suppression</h3>
             </div>
             <div class="modal-body">
                 <p class="modal-message">
-                    Are you sure you want to delete employee <strong id="employeeName"></strong>?
+                    Êtes-vous sûr de vouloir supprimer l'employé <strong id="employeeName"></strong>?
                     <br><br>
-                    This action cannot be undone.
+                    Cette action ne peut pas être annulée.
                 </p>
                 <div class="modal-actions">
-                    <button type="button" class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Cancel</button>
-                    <button type="button" class="modal-btn modal-btn-confirm" onclick="confirmDelete()">Delete</button>
+                    <button type="button" class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Annuler</button>
+                    <button type="button" class="modal-btn modal-btn-confirm" onclick="confirmDelete()">Supprimer</button>
                 </div>
             </div>
         </div>

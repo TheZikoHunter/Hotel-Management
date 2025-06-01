@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Employee - Hotel Management System</title>
+    <title>Ajouter un Employé - Système de Gestion Hôtelière</title>
     <style>
         * {
             box-sizing: border-box;
@@ -137,8 +137,8 @@
 <body>
     <div class="form-container">
         <div class="form-header">
-            <h1>Add New Employee</h1>
-            <p>Create a new employee account</p>
+            <h1>Ajouter un Nouvel Employé</h1>
+            <p>Créer un nouveau compte employé</p>
         </div>
 
         <c:if test="${not empty error}">
@@ -151,35 +151,35 @@
             <input type="hidden" name="action" value="add">
             
             <div class="form-group">
-                <label for="username">Username <span class="required">*</span></label>
+                <label for="username">Nom d'utilisateur <span class="required">*</span></label>
                 <input type="text" id="username" name="username" required 
-                       value="${param.username}" placeholder="Enter username">
+                       value="${param.username}" placeholder="Entrer le nom d'utilisateur">
             </div>
 
             <div class="form-group">
-                <label for="password">Password <span class="required">*</span></label>
+                <label for="password">Mot de passe <span class="required">*</span></label>
                 <input type="password" id="password" name="password" required 
-                       placeholder="Enter password">
+                       placeholder="Entrer le mot de passe">
             </div>
 
             <div class="form-group">
-                <label for="fullName">Full Name <span class="required">*</span></label>
+                <label for="fullName">Nom complet <span class="required">*</span></label>
                 <input type="text" id="fullName" name="fullName" required 
-                       value="${param.fullName}" placeholder="Enter full name">
+                       value="${param.fullName}" placeholder="Entrer le nom complet">
             </div>
 
             <div class="form-group">
-                <label for="role">Role <span class="required">*</span></label>
+                <label for="role">Rôle <span class="required">*</span></label>
                 <select id="role" name="role" required>
-                    <option value="">Select role</option>
+                    <option value="">Sélectionner le rôle</option>
                     <option value="admin" ${param.role == 'admin' ? 'selected' : ''}>Admin</option>
-                    <option value="staff" ${param.role == 'staff' ? 'selected' : ''}>Staff</option>
+                    <option value="staff" ${param.role == 'staff' ? 'selected' : ''}>Personnel</option>
                 </select>
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn">Add Employee</button>
-                <a href="employee-management" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn">Ajouter l'Employé</button>
+                <a href="employee-management" class="btn btn-secondary">Annuler</a>
             </div>
         </form>
     </div>

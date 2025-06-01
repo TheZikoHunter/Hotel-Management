@@ -52,7 +52,7 @@ public class ReservationManagementServlet extends HttpServlet {
         
         Employee employee = (Employee) session.getAttribute("employee");
         if (!"staff".equalsIgnoreCase(employee.getRole())) {
-            response.sendRedirect("dashboard?error=Access denied. Only staff members can manage reservations.");
+            response.sendRedirect("dashboard?error=Accès refusé. Seuls les membres du personnel peuvent gérer les réservations.");
             return false;
         }
         
@@ -113,7 +113,7 @@ public class ReservationManagementServlet extends HttpServlet {
             Reservation reservation = reservationDAO.getReservationById(id);
             
             if (reservation == null) {
-                request.setAttribute("error", "Reservation not found");
+                request.setAttribute("error", "Réservation introuvable");
                 response.sendRedirect("dashboard");
                 return;
             }
@@ -156,7 +156,7 @@ public class ReservationManagementServlet extends HttpServlet {
                 checkOutDateStr == null || checkOutDateStr.trim().isEmpty() ||
                 status == null || status.trim().isEmpty()) {
                 
-                request.setAttribute("error", "All fields except notes are required");
+                request.setAttribute("error", "Tous les champs sauf les notes sont obligatoires");
                 Reservation reservation = reservationDAO.getReservationById(id);
                 request.setAttribute("reservation", reservation);
                 request.getRequestDispatcher("/WEB-INF/views/edit-reservation.jsp").forward(request, response);
@@ -166,7 +166,7 @@ public class ReservationManagementServlet extends HttpServlet {
             // Get the existing reservation
             Reservation reservation = reservationDAO.getReservationById(id);
             if (reservation == null) {
-                request.setAttribute("error", "Reservation not found");
+                request.setAttribute("error", "Réservation introuvable");
                 response.sendRedirect("dashboard");
                 return;
             }
@@ -178,7 +178,7 @@ public class ReservationManagementServlet extends HttpServlet {
 
             // Validate check-out date is after check-in date
             if (checkOutDate.before(checkInDate)) {
-                request.setAttribute("error", "Check-out date must be after check-in date");
+                request.setAttribute("error", "La date de départ doit être postérieure à la date d'arrivée");
                 request.setAttribute("reservation", reservation);
                 request.getRequestDispatcher("/WEB-INF/views/edit-reservation.jsp").forward(request, response);
                 return;
@@ -195,19 +195,19 @@ public class ReservationManagementServlet extends HttpServlet {
             reservation.setNotes(notes != null ? notes.trim() : "");
 
             if (reservationDAO.updateReservation(reservation)) {
-                response.sendRedirect("dashboard?success=Reservation updated successfully");
+                response.sendRedirect("dashboard?success=Réservation mise à jour avec succès");
             } else {
-                request.setAttribute("error", "Failed to update reservation");
+                request.setAttribute("error", "Échec de la mise à jour de la réservation");
                 request.setAttribute("reservation", reservation);
                 request.getRequestDispatcher("/WEB-INF/views/edit-reservation.jsp").forward(request, response);
             }
         } catch (NumberFormatException e) {
-            request.setAttribute("error", "Invalid room number");
+            request.setAttribute("error", "Numéro de chambre invalide");
             Reservation reservation = reservationDAO.getReservationById(Integer.parseInt(idParam));
             request.setAttribute("reservation", reservation);
             request.getRequestDispatcher("/WEB-INF/views/edit-reservation.jsp").forward(request, response);
         } catch (IllegalArgumentException e) {
-            request.setAttribute("error", "Invalid date format");
+            request.setAttribute("error", "Format de date invalide");
             Reservation reservation = reservationDAO.getReservationById(Integer.parseInt(idParam));
             request.setAttribute("reservation", reservation);
             request.getRequestDispatcher("/WEB-INF/views/edit-reservation.jsp").forward(request, response);
@@ -221,7 +221,7 @@ public class ReservationManagementServlet extends HttpServlet {
         String idParam = request.getParameter("id");
         
         if (idParam == null || idParam.trim().isEmpty()) {
-            response.sendRedirect("dashboard?error=Invalid reservation ID");
+            response.sendRedirect("dashboard?error=ID de réservation invalide");
             return;
         }
         
@@ -231,18 +231,18 @@ public class ReservationManagementServlet extends HttpServlet {
             // Check if reservation exists
             Reservation reservation = reservationDAO.getReservationById(id);
             if (reservation == null) {
-                response.sendRedirect("dashboard?error=Reservation not found");
+                response.sendRedirect("dashboard?error=Réservation introuvable");
                 return;
             }
             
             // Attempt to delete the reservation
             if (reservationDAO.deleteReservation(id)) {
-                response.sendRedirect("dashboard?success=Reservation deleted successfully");
+                response.sendRedirect("dashboard?success=Réservation supprimée avec succès");
             } else {
-                response.sendRedirect("dashboard?error=Failed to delete reservation");
+                response.sendRedirect("dashboard?error=Échec de la suppression de la réservation");
             }
         } catch (NumberFormatException e) {
-            response.sendRedirect("dashboard?error=Invalid reservation ID");
+            response.sendRedirect("dashboard?error=ID de réservation invalide");
         }
     }
 }

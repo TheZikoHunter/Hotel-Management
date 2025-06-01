@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hotel Management - Login</title>
+    <title>Gestion Hôtelière - Connexion</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Tailwind CSS from CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -96,8 +96,8 @@
     <div class="card-decoration relative hidden md:block md:w-2/5 lg:w-1/2">
         <div class="absolute inset-0 bg-hotel-navy bg-opacity-30"></div>
         <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
-            <div class="font-serif text-3xl font-bold">Welcome</div>
-            <p class="mt-2 opacity-90">Luxury at your service</p>
+            <div class="font-serif text-3xl font-bold">Bienvenue</div>
+            <p class="mt-2 opacity-90">Le luxe à votre service</p>
         </div>
     </div>
 
@@ -110,10 +110,10 @@
                     <path d="M2 8h20M2 16h20M2 12h20M4 4v16M20 4v16" />
                 </svg>
             </div>
-            <h1 class="text-3xl sm:text-4xl font-bold text-hotel-charcoal">Hotel Management</h1>
+            <h1 class="text-3xl sm:text-4xl font-bold text-hotel-charcoal">Gestion Hôtelière</h1>
             <div class="mt-2 text-base text-gray-600 flex items-center">
                 <span class="h-px w-10 bg-hotel-gold opacity-50 mr-3"></span>
-                <span>Employee Login</span>
+                <span>Connexion Employé</span>
                 <span class="h-px w-10 bg-hotel-gold opacity-50 ml-3"></span>
             </div>
         </div>
@@ -135,7 +135,7 @@
         <!-- Login Form -->
         <form action="<%= request.getContextPath() %>/login" method="post" class="space-y-6">
             <div>
-                <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Nom d'utilisateur</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -149,15 +149,15 @@
                             name="username"
                             required
                             class="input-field pl-10 block w-full rounded-md border border-gray-300 bg-gray-50 py-3 text-gray-900 focus:outline-none"
-                            placeholder="Enter your username"
+                            placeholder="Entrez votre nom d'utilisateur"
                     >
                 </div>
             </div>
 
             <div>
                 <div class="flex items-center justify-between mb-1">
-                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                    <a href="#" class="text-xs text-hotel-navy hover:text-hotel-gold transition-colors">Forgot Password?</a>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                    <a href="#" class="text-xs text-hotel-navy hover:text-hotel-gold transition-colors">Mot de passe oublié ?</a>
                 </div>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -172,7 +172,7 @@
                             name="password"
                             required
                             class="input-field pl-10 block w-full rounded-md border border-gray-300 bg-gray-50 py-3 text-gray-900 focus:outline-none"
-                            placeholder="Enter your password"
+                            placeholder="Entrez votre mot de passe"
                     >
                 </div>
             </div>
@@ -182,7 +182,7 @@
                         type="submit"
                         class="login-button w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-r from-hotel-navy to-blue-800 hover:from-hotel-navy hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hotel-navy"
                 >
-                    <span>Sign In</span>
+                    <span>Se connecter</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
@@ -190,7 +190,7 @@
             </div>
 
             <div class="text-center text-sm text-gray-500 mt-8">
-                <p>© 2025 Luxury Hotel Group. All rights reserved.</p>
+                <p>© 2025 Groupe Hôtelier de Luxe. Tous droits réservés.</p>
             </div>
         </form>
     </div>

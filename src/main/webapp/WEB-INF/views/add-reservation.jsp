@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hotel Management - Add Reservation</title>
+    <title>Gestion Hôtelière - Ajouter une Réservation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -61,7 +61,7 @@
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                 </div>
-                <span class="text-2xl font-serif">Hotel Management System</span>
+                <span class="text-2xl font-serif">Système de Gestion Hôtelière</span>
             </div>
             <div class="flex items-center space-x-6">
                 <div class="flex items-center space-x-2">
@@ -70,13 +70,13 @@
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                     </div>
-                    <span class="text-sm font-medium">Welcome, <%= session.getAttribute("employeeName") %></span>
+                    <span class="text-sm font-medium">Bienvenue, <%= session.getAttribute("employeeName") %></span>
                 </div>
                 <a href="logout" class="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors duration-150 ease-in-out flex items-center space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                     </svg>
-                    <span>Logout</span>
+                    <span>Déconnexion</span>
                 </a>
             </div>
         </div>
@@ -94,8 +94,8 @@
                 </svg>
             </a>
             <div>
-                <h1 class="text-3xl font-serif text-hotel-charcoal">Add New Reservation</h1>
-                <p class="mt-1 text-sm text-gray-500">Create a new booking for a guest</p>
+                <h1 class="text-3xl font-serif text-hotel-charcoal">Ajouter une Nouvelle Réservation</h1>
+                <p class="mt-1 text-sm text-gray-500">Créer une nouvelle réservation pour un client</p>
             </div>
         </div>
     </div>
@@ -120,10 +120,10 @@
         <form action="add-reservation" method="post" class="p-8">
             <!-- Guest Information -->
             <div class="mb-8">
-                <h2 class="text-xl font-serif text-hotel-charcoal mb-6">Guest Information</h2>
+                <h2 class="text-xl font-serif text-hotel-charcoal mb-6">Informations du Client</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
-                        <label for="guestName" class="block text-sm font-medium text-gray-700 mb-2">Guest Name</label>
+                        <label for="guestName" class="block text-sm font-medium text-gray-700 mb-2">Nom du Client</label>
                         <input type="text" id="guestName" name="guestName" required
                                class="form-input w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none">
                     </div>
@@ -135,7 +135,7 @@
                     </div>
 
                     <div>
-                        <label for="guestPhone" class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                        <label for="guestPhone" class="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
                         <input type="tel" id="guestPhone" name="guestPhone" required
                                class="form-input w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none">
                     </div>
@@ -144,33 +144,33 @@
 
             <!-- Reservation Details -->
             <div class="mb-8">
-                <h2 class="text-xl font-serif text-hotel-charcoal mb-6">Reservation Details</h2>
+                <h2 class="text-xl font-serif text-hotel-charcoal mb-6">Détails de la Réservation</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
-                        <label for="roomNumber" class="block text-sm font-medium text-gray-700 mb-2">Room Number</label>
+                        <label for="roomNumber" class="block text-sm font-medium text-gray-700 mb-2">Numéro de Chambre</label>
                         <input type="number" id="roomNumber" name="roomNumber" min="1" required
                                class="form-input w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none">
                     </div>
 
                     <div>
-                        <label for="checkInDate" class="block text-sm font-medium text-gray-700 mb-2">Check-in Date</label>
+                        <label for="checkInDate" class="block text-sm font-medium text-gray-700 mb-2">Date d'Arrivée</label>
                         <input type="date" id="checkInDate" name="checkInDate" required
                                class="form-input w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none">
                     </div>
 
                     <div>
-                        <label for="checkOutDate" class="block text-sm font-medium text-gray-700 mb-2">Check-out Date</label>
+                        <label for="checkOutDate" class="block text-sm font-medium text-gray-700 mb-2">Date de Départ</label>
                         <input type="date" id="checkOutDate" name="checkOutDate" required
                                class="form-input w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none">
                     </div>
 
                     <div>
-                        <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
                         <select id="status" name="status" required
                                 class="form-input w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none">
-                            <option value="Confirmed">Confirmed</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Cancelled">Cancelled</option>
+                            <option value="Confirmed">Confirmé</option>
+                            <option value="Pending">En attente</option>
+                            <option value="Cancelled">Annulé</option>
                         </select>
                     </div>
 
@@ -186,11 +186,11 @@
             <div class="flex justify-end space-x-4">
                 <a href="dashboard"
                    class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium text-sm transition-colors duration-150">
-                    Cancel
+                    Annuler
                 </a>
                 <button type="submit"
                         class="submit-button px-6 py-3 bg-hotel-navy text-white rounded-lg hover:bg-blue-800 font-medium text-sm shadow-sm">
-                    Save Reservation
+                    Enregistrer la Réservation
                 </button>
             </div>
         </form>

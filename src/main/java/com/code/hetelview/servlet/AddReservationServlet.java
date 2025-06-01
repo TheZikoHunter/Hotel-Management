@@ -88,7 +88,7 @@ public class AddReservationServlet extends HttpServlet {
             checkOutDateStr == null || checkOutDateStr.trim().isEmpty() ||
             status == null || status.trim().isEmpty()) {
 
-            request.setAttribute("error", "All fields are required");
+            request.setAttribute("error", "Tous les champs sont obligatoires");
             request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
             return;
         }
@@ -103,7 +103,7 @@ public class AddReservationServlet extends HttpServlet {
 
             // Validate check-out date is after check-in date
             if (checkOutDate.before(checkInDate)) {
-                request.setAttribute("error", "Check-out date must be after check-in date");
+                request.setAttribute("error", "La date de départ doit être postérieure à la date d'arrivée");
                 request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
                 return;
             }
@@ -127,14 +127,14 @@ public class AddReservationServlet extends HttpServlet {
                 // Redirect to dashboard
                 response.sendRedirect("dashboard");
             } else {
-                request.setAttribute("error", "Failed to add reservation. Please try again.");
+                request.setAttribute("error", "Échec de l'ajout de la réservation. Veuillez réessayer.");
                 request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
             }
         } catch (NumberFormatException e) {
-            request.setAttribute("error", "Invalid room number");
+            request.setAttribute("error", "Numéro de chambre invalide");
             request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
         } catch (IllegalArgumentException e) {
-            request.setAttribute("error", "Invalid date format");
+            request.setAttribute("error", "Format de date invalide");
             request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
         }
     }
