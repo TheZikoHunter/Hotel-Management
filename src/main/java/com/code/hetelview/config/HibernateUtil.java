@@ -28,6 +28,11 @@ public class HibernateUtil {
             cfg.setProperty("hibernate.hbm2ddl.auto", "update");
             cfg.setProperty("hibernate.show_sql", "true");
             cfg.setProperty("hibernate.format_sql", "true");
+            
+            // UTF-8 encoding properties
+            cfg.setProperty("hibernate.connection.CharSet", "utf8mb4");
+            cfg.setProperty("hibernate.connection.characterEncoding", "utf8mb4");
+            cfg.setProperty("hibernate.connection.useUnicode", "true");
 
             // Register your entity classes
             cfg.addAnnotatedClass(Employee.class);

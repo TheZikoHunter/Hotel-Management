@@ -40,8 +40,8 @@ public class EmployeeManagementServlet extends HttpServlet {
         Employee currentEmployee = (Employee) session.getAttribute("employee");
         String role = currentEmployee.getRole();
         
-        if (!"admin".equals(role) && !"chef de réception".equals(role)) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Accès refusé. Privilèges administrateur ou chef de réception requis.");
+        if (!"admin".equals(role) && !"chef de réception".equals(role) && !"gouvernante".equals(role)) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Accès refusé. Privilèges administrateur, chef de réception ou gouvernante requis.");
             return false;
         }
         
@@ -65,7 +65,7 @@ public class EmployeeManagementServlet extends HttpServlet {
             return true;
         }
         
-        // Chef de réception can manage specific roles
+        // Chef de réception can manage reception and general service roles
         if ("chef de réception".equals(currentRole)) {
             return "réceptionniste".equals(targetRole) ||
                    "standardiste".equals(targetRole) ||
@@ -73,11 +73,18 @@ public class EmployeeManagementServlet extends HttpServlet {
                    "concierge".equals(targetRole) ||
                    "chef de réception".equals(targetRole) ||
                    "agent de sécurité".equals(targetRole) ||
-                   "femme de chambre".equals(targetRole) ||
-                   "gouvernante".equals(targetRole) ||
                    "bagagiste".equals(targetRole) ||
                    "guide".equals(targetRole) ||
                    "caissier".equals(targetRole);
+        }
+        
+        // Gouvernante can manage housekeeping roles
+        if ("gouvernante".equals(currentRole)) {
+            return "femme de chambre".equals(targetRole) ||
+                   "valet de chambre".equals(targetRole) ||
+                   "serveur d'étage".equals(targetRole) ||
+                   "lingère".equals(targetRole) ||
+                   "gouvernante".equals(targetRole);
         }
         
         return false;

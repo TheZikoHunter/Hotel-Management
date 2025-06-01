@@ -255,8 +255,8 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn">Update Reservation</button>
-                <a href="dashboard" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn">Mettre à jour Réservation</button>
+                <a href="dashboard" class="btn btn-secondary">Annuler</a>
             </div>
         </form>
     </div>
