@@ -23,9 +23,11 @@ mvn -version
 #### Pour Windows
 Télécharger le sur [Maven](https://maven.apache.org/download.cgi)
 
-Remarque : sur Windows, vous pourriez avoir besoin de l'ajouter au votre PATH (variables d'environnement).
+Remarques : 
+* sur Windows, vous pourriez avoir besoin de l'ajouter au votre PATH (variables d'environnement) ;
+* Si vous ne voulez pas installer Maven, vous pouvez utiliser un IDE de Java (Eclipse ou Intelij sont recommendés)
 
-### 
+### MySQL
 
 MariaDB (Alternative de MySQL sur Debian)
 
@@ -37,13 +39,7 @@ Lancer le serveur :
 sudo systemctl start mariadb
 sudo systemctl enable mariadb
 sudo mariadb
-```
-Créer une base de données et un utilisateur MySQL (utiliser le terminal ou un éditeur de bases de données - recommendation DBeaver):
-```sql
-CREATE DATABASE hotel;
-CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
-GRANT ALL PRIVILEGES ON hotel.* TO 'admin'@'localhost';
-```
+
 
 ### d. Git
 
@@ -52,4 +48,20 @@ GRANT ALL PRIVILEGES ON hotel.* TO 'admin'@'localhost';
 - Cloner le projet :
 ```Git
 git clone git@github.com:TheZikoHunter/Hotel-Management.git
+```
+
+## Configuration de la base de données
+1. Créer une base de données et un utilisateur MySQL (utiliser le terminal ou un éditeur de bases de données - recommendation DBeaver):
+```sql
+CREATE DATABASE hotel;
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin_pass';
+GRANT ALL PRIVILEGES ON hotel.* TO 'admin'@'localhost';
+```
+2. Exécuter le script dans le répertoire src/main/resources/database_setup.sql.
+3. Créer un fichier src/main/recources/database.properties (utilisez un IDE ou un éditeur de text, sinon activer l'affichage d'extension du fichier si vous êtes sur Windows) avec le contenu suivant :
+```properties
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://localhost:3306/hotel?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+db.username=admin
+db.password=admin_pass
 ```

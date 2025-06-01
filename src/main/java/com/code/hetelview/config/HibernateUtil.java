@@ -1,10 +1,10 @@
 package com.code.hetelview.config;
-
-import java.util.Properties;
-import java.io.InputStream;
-
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import com.code.hetelview.model.Employee;
+import com.code.hetelview.model.Reservation;
+import java.util.Properties;
+import java.io.InputStream;
 
 public class HibernateUtil {
     private static SessionFactory sessionFactory;
@@ -23,8 +23,16 @@ public class HibernateUtil {
             cfg.setProperty("hibernate.connection.username", dbProps.getProperty("db.username"));
             cfg.setProperty("hibernate.connection.password", dbProps.getProperty("db.password"));
 
-            // Add other hibernate settings (dialect, show_sql, etc.)
-            cfg.configure(); // This loads hibernate.cfg.xml (if used)
+            // Add required Hibernate properties
+            cfg.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
+            cfg.setProperty("hibernate.hbm2ddl.auto", "update");
+            cfg.setProperty("hibernate.show_sql", "true");
+            cfg.setProperty("hibernate.format_sql", "true");
+
+            // Register your entity classes
+            cfg.addAnnotatedClass(Employee.class);
+            cfg.addAnnotatedClass(Reservation.class);
+            // Add other entities as needed
 
             sessionFactory = cfg.buildSessionFactory();
         } catch (Exception ex) {

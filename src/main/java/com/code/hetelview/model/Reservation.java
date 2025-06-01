@@ -157,4 +157,27 @@ public class Reservation {
                 ", notes='" + notes + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Reservation that = (Reservation) obj;
+        return id == that.id &&
+               roomNumber == that.roomNumber &&
+               java.util.Objects.equals(guestName, that.guestName) &&
+               java.util.Objects.equals(guestEmail, that.guestEmail) &&
+               java.util.Objects.equals(guestPhone, that.guestPhone) &&
+               java.util.Objects.equals(checkInDate, that.checkInDate) &&
+               java.util.Objects.equals(checkOutDate, that.checkOutDate) &&
+               java.util.Objects.equals(status, that.status) &&
+               java.util.Objects.equals(createdBy, that.createdBy) &&
+               java.util.Objects.equals(notes, that.notes);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(id, guestName, guestEmail, guestPhone, roomNumber, 
+                                    checkInDate, checkOutDate, status, createdBy, notes);
+    }
 }

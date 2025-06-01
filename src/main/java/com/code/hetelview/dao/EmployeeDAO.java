@@ -18,6 +18,10 @@ import java.util.List;
  */
 public class EmployeeDAO {
 
+    public EmployeeDAO() {
+        // default constructor for Mockito
+    }
+
     /**
      * Get an employee by username.
      * 

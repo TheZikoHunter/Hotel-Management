@@ -17,6 +17,10 @@ public class PasswordUtil {
      */
     public static String hashPassword(String password) {
         try {
+            // Handle null password by treating it as empty string
+            if (password == null) {
+                password = "";
+            }
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
             StringBuilder hexString = new StringBuilder();
@@ -41,6 +45,9 @@ public class PasswordUtil {
      * @return true if the password matches the hash, false otherwise
      */
     public static boolean verifyPassword(String password, String hash) {
+        if (hash == null) {
+            return false;
+        }
         return hashPassword(password).equals(hash);
     }
 }

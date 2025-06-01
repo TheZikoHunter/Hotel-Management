@@ -16,6 +16,10 @@ import java.util.List;
  */
 public class ReservationDAO {
 
+    public ReservationDAO() {
+        // default constructor for Mockito
+    }
+
     /**
      * Get all reservations.
      * 
