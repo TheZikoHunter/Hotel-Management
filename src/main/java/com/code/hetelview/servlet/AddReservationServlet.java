@@ -12,9 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 /**
  * Servlet for handling adding new reservations.
  */
@@ -43,7 +40,7 @@ public class AddReservationServlet extends HttpServlet {
             return;
         }
 
-        request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
     }
 
     /**
@@ -80,7 +77,7 @@ public class AddReservationServlet extends HttpServlet {
             status == null || status.trim().isEmpty()) {
 
             request.setAttribute("error", "All fields are required");
-            request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
             return;
         }
 
@@ -95,7 +92,7 @@ public class AddReservationServlet extends HttpServlet {
             // Validate check-out date is after check-in date
             if (checkOutDate.before(checkInDate)) {
                 request.setAttribute("error", "Check-out date must be after check-in date");
-                request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
                 return;
             }
 
@@ -122,14 +119,14 @@ public class AddReservationServlet extends HttpServlet {
                 response.sendRedirect("dashboard");
             } else {
                 request.setAttribute("error", "Failed to add reservation. Please try again.");
-                request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
             }
         } catch (NumberFormatException e) {
             request.setAttribute("error", "Invalid room number");
-            request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
         } catch (IllegalArgumentException e) {
             request.setAttribute("error", "Invalid date format");
-            request.getRequestDispatcher("/add-reservation.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
         }
     }
 }

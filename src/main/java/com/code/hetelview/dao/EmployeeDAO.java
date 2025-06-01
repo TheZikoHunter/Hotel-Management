@@ -2,13 +2,13 @@ package com.code.hetelview.dao;
 
 import com.code.hetelview.model.Employee;
 import com.code.hetelview.util.HibernateUtil;
+import com.code.hetelview.util.PasswordUtil;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Predicate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +60,7 @@ public class EmployeeDAO {
      * Authenticate an employee by username and password.
      * 
      * @param username The username
-     * @param password The password
+     * @param password The plain text password
      * @return The Employee object if authentication is successful, null otherwise
      */
     public Employee authenticate(String username, String password) {
@@ -71,21 +71,18 @@ public class EmployeeDAO {
 
             transaction = session.beginTransaction();
 
-
+            // First get the employee by username
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Employee> criteriaQuery = builder.createQuery(Employee.class);
             Root<Employee> root = criteriaQuery.from(Employee.class);
 
-
-            Predicate[] predicates = new Predicate[2];
-            predicates[0] = builder.equal(root.get("username"), username);
-            predicates[1] = builder.equal(root.get("password"), password); // In a real application, use password hashing
-
-            criteriaQuery.select(root).where(predicates);
-
-
+            criteriaQuery.select(root).where(builder.equal(root.get("username"), username));
             employee = session.createQuery(criteriaQuery).uniqueResult();
 
+            // Verify password if employee found
+            if (employee != null && !PasswordUtil.verifyPassword(password, employee.getPassword())) {
+                employee = null; // Authentication failed
+            }
 
             transaction.commit();
         } catch (Exception e) {
@@ -148,6 +145,9 @@ public class EmployeeDAO {
             // Start a transaction
             transaction = session.beginTransaction();
 
+            // Hash the password before saving
+            employee.setPassword(PasswordUtil.hashPassword(employee.getPassword()));
+
             // Save the employee
             session.save(employee);
 
@@ -159,6 +159,95 @@ public class EmployeeDAO {
                 transaction.rollback();
             }
             System.err.println("Error adding employee!");
+            e.printStackTrace();
+        }
+
+        return success;
+    }
+
+    /**
+     * Get an employee by ID.
+     * 
+     * @param id The employee ID to search for
+     * @return The Employee object if found, null otherwise
+     */
+    public Employee getEmployeeById(int id) {
+        Transaction transaction = null;
+        Employee employee = null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            employee = session.get(Employee.class, id);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.err.println("Error retrieving employee by ID!");
+            e.printStackTrace();
+        }
+
+        return employee;
+    }
+
+    /**
+     * Update an existing employee.
+     * 
+     * @param employee The employee to update
+     * @return true if the operation was successful, false otherwise
+     */
+    public boolean updateEmployee(Employee employee) {
+        Transaction transaction = null;
+        boolean success = false;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            // If password is being updated, hash it
+            Employee existingEmployee = session.get(Employee.class, employee.getId());
+            if (existingEmployee != null && !employee.getPassword().equals(existingEmployee.getPassword())) {
+                employee.setPassword(PasswordUtil.hashPassword(employee.getPassword()));
+            }
+
+            session.update(employee);
+            transaction.commit();
+            success = true;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.err.println("Error updating employee!");
+            e.printStackTrace();
+        }
+
+        return success;
+    }
+
+    /**
+     * Delete an employee by ID.
+     * 
+     * @param id The ID of the employee to delete
+     * @return true if the operation was successful, false otherwise
+     */
+    public boolean deleteEmployee(int id) {
+        Transaction transaction = null;
+        boolean success = false;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            
+            Employee employee = session.get(Employee.class, id);
+            if (employee != null) {
+                session.delete(employee);
+                success = true;
+            }
+            
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.err.println("Error deleting employee!");
             e.printStackTrace();
         }
 

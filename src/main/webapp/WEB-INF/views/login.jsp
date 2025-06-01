@@ -133,7 +133,7 @@
         <% } %>
 
         <!-- Login Form -->
-        <form action="login" method="post" class="space-y-6">
+        <form action="<%= request.getContextPath() %>/login" method="post" class="space-y-6">
             <div>
                 <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
                 <div class="relative">

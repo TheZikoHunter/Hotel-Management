@@ -99,12 +99,26 @@
                 <h1 class="text-3xl font-serif text-hotel-charcoal">Reservations</h1>
                 <p class="mt-1 text-sm text-gray-500">Manage hotel reservations and guest bookings</p>
             </div>
-            <a href="add-reservation" class="bg-hotel-navy hover:bg-blue-800 text-white text-sm font-medium px-6 py-3 rounded-lg shadow-sm transition-all duration-150 ease-in-out flex items-center space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-                <span>Add New Reservation</span>
-            </a>
+            <div class="flex space-x-4">
+                <%-- Show employee management link only for admin users --%>
+                <% 
+                    com.code.hetelview.model.Employee currentEmployee = (com.code.hetelview.model.Employee) session.getAttribute("employee");
+                    if (currentEmployee != null && "admin".equalsIgnoreCase(currentEmployee.getRole())) {
+                %>
+                <a href="employee-management" class="bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium px-6 py-3 rounded-lg shadow-sm transition-all duration-150 ease-in-out flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                    </svg>
+                    <span>Manage Employees</span>
+                </a>
+                <% } %>
+                <a href="add-reservation" class="bg-hotel-navy hover:bg-blue-800 text-white text-sm font-medium px-6 py-3 rounded-lg shadow-sm transition-all duration-150 ease-in-out flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span>Add New Reservation</span>
+                </a>
+            </div>
         </div>
     </div>
 

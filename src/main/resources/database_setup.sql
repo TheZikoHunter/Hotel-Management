@@ -30,16 +30,16 @@ CREATE TABLE IF NOT EXISTS reservations (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Insert default admin user (username: admin, password: admin123)
+-- Insert default admin user (username: admin, password: admin123 - hashed)
 INSERT INTO employees (username, password, full_name, role)
-VALUES ('admin', 'admin123', 'Administrator', 'Admin')
+VALUES ('admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Administrator', 'admin')
 ON CONFLICT (username) DO NOTHING;
 
--- Insert some sample employees
+-- Insert some sample employees (passwords are hashed)
 INSERT INTO employees (username, password, full_name, role)
 VALUES 
-    ('john', 'john123', 'John Smith', 'Receptionist'),
-    ('mary', 'mary123', 'Mary Johnson', 'Manager')
+    ('john', 'b4b597c714a8f49103da4dab0266af0ee0ae4f8575250a84855c3d76941cd422', 'John Smith', 'staff'),
+    ('mary', '6120ac744907caa62f236bd2695b50478c7fdf17fffb928ac84507ad330b2be8', 'Mary Johnson', 'staff')
 ON CONFLICT (username) DO NOTHING;
 
 -- Insert some sample reservations

@@ -5,10 +5,10 @@
 <hibernate-configuration>
     <session-factory>
         <!-- Database connection settings -->
-        <property name="hibernate.connection.driver_class">${db.driver}</property>
-        <property name="hibernate.connection.url">${db.url}</property>
-        <property name="hibernate.connection.username">${db.username}</property>
-        <property name="hibernate.connection.password">${db.password}</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/hotel</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">highlevel</property>
 
         
         <!-- JDBC connection pool settings -->

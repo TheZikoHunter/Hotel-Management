@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        request.getRequestDispatcher("/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
     }
 
     /**
@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
         // Validate input
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             request.setAttribute("error", "Username and password are required");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
             return;
         }
 
@@ -70,7 +70,7 @@ public class LoginServlet extends HttpServlet {
         } else {
 
             request.setAttribute("error", "Invalid username or password");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
         }
     }
 }
