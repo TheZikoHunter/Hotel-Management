@@ -41,9 +41,9 @@ public class ReservationManagementServlet extends HttpServlet {
     }
 
     /**
-     * Check if the user is staff (not admin) and authorized for reservation management operations.
+     * Check if the user is réceptionniste and authorized for reservation management operations.
      */
-    private boolean isAuthorizedStaff(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private boolean isAuthorizedReceptionniste(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false);
         
         if (!isAuthenticated(request, response)) {
@@ -51,8 +51,8 @@ public class ReservationManagementServlet extends HttpServlet {
         }
         
         Employee employee = (Employee) session.getAttribute("employee");
-        if (!"staff".equalsIgnoreCase(employee.getRole())) {
-            response.sendRedirect("dashboard?error=Accès refusé. Seuls les membres du personnel peuvent gérer les réservations.");
+        if (!"réceptionniste".equals(employee.getRole())) {
+            response.sendRedirect("dashboard?error=Accès refusé. Seuls les réceptionnistes peuvent gérer les réservations.");
             return false;
         }
         
@@ -64,7 +64,7 @@ public class ReservationManagementServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!isAuthorizedStaff(request, response)) {
+        if (!isAuthorizedReceptionniste(request, response)) {
             return;
         }
 
@@ -82,7 +82,7 @@ public class ReservationManagementServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!isAuthorizedStaff(request, response)) {
+        if (!isAuthorizedReceptionniste(request, response)) {
             return;
         }
 

@@ -26,6 +26,20 @@ public class AddReservationServlet extends HttpServlet {
     }
 
     /**
+     * Check if the user is a réceptionniste (can manage reservations).
+     */
+    private boolean isReceptionniste(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Employee employee = (Employee) session.getAttribute("employee");
+            if (employee != null) {
+                return "réceptionniste".equals(employee.getRole());
+            }
+        }
+        return false;
+    }
+
+    /**
      * Handles GET requests to the add reservation page.
      * Displays the form for adding a new reservation.
      */
@@ -38,10 +52,9 @@ public class AddReservationServlet extends HttpServlet {
             return;
         }
 
-        // Check if user is staff (not admin)
-        Employee employee = (Employee) session.getAttribute("employee");
-        if (!"staff".equalsIgnoreCase(employee.getRole())) {
-            response.sendRedirect("dashboard?error=Access denied. Only staff members can add reservations.");
+        // Check if user is réceptionniste
+        if (!isReceptionniste(request)) {
+            response.sendRedirect("dashboard?error=Accès refusé. Seuls les réceptionnistes peuvent ajouter des réservations.");
             return;
         }
 
@@ -62,12 +75,14 @@ public class AddReservationServlet extends HttpServlet {
             return;
         }
 
-        // Check if user is staff (not admin)
-        Employee employee = (Employee) session.getAttribute("employee");
-        if (!"staff".equalsIgnoreCase(employee.getRole())) {
-            response.sendRedirect("dashboard?error=Access denied. Only staff members can add reservations.");
+        // Check if user is réceptionniste
+        if (!isReceptionniste(request)) {
+            response.sendRedirect("dashboard?error=Accès refusé. Seuls les réceptionnistes peuvent ajouter des réservations.");
             return;
         }
+
+        // Get employee for creating reservation
+        Employee employee = (Employee) session.getAttribute("employee");
 
         // Get form parameters
         String guestName = request.getParameter("guestName");

@@ -35,16 +35,28 @@ CREATE TABLE IF NOT EXISTS reservations (
 INSERT IGNORE INTO employees (username, password, full_name, role)
 VALUES ('admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Administrator', 'admin');
 
--- Insert some sample employees (passwords are hashed)
+-- Note: Sample login credentials for testing:
+-- Admin: admin / admin123
+-- Chef de réception: chef_reception / password123  
+-- Réceptionniste: receptionniste1 / password123 or receptionniste2 / password123
+-- All other sample users: password123
+
+-- Insert some sample employees with hotel roles (passwords are hashed u-- Insert some sample employees with hotel roles (passwords are hashed using SHA-256)
 INSERT IGNORE INTO employees (username, password, full_name, role)
 VALUES 
-    ('john', 'b4b597c714a8f49103da4dab0266af0ee0ae4f8575250a84855c3d76941cd422', 'John Smith', 'staff'),
-    ('mary', '6120ac744907caa62f236bd2695b50478c7fdf17fffb928ac84507ad330b2be8', 'Mary Johnson', 'staff');
+    ('chef_reception', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'Pierre Dubois', 'chef de réception'),
+    ('receptionniste1', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'Marie Leclerc', 'réceptionniste'),
+    ('receptionniste2', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'Jean Martin', 'réceptionniste'),
+    ('concierge1', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'Sophie Moreau', 'concierge'),
+    ('voiturier1', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'Luc Bernard', 'voiturier'),
+    ('agent_securite', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'Marc Rousseau', 'agent de sécurité'),
+    ('femme_chambre1', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'Claire Petit', 'femme de chambre'),
+    ('gouvernante1', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'Isabelle Thomas', 'gouvernante');
 
 -- Insert some sample reservations
 INSERT IGNORE INTO reservations (guest_name, guest_email, guest_phone, room_number, check_in_date, check_out_date, status, created_by, notes)
 VALUES 
-    ('Alice Brown', 'alice@example.com', '555-1234', 101, '2023-06-15', '2023-06-20', 'Confirmed', 1, 'VIP guest'),
-    ('Bob Wilson', 'bob@example.com', '555-5678', 202, '2023-06-18', '2023-06-25', 'Confirmed', 2, 'Late check-in'),
-    ('Charlie Davis', 'charlie@example.com', '555-9012', 303, '2023-06-10', '2023-06-12', 'Checked-out', 2, ''),
-    ('Diana Evans', 'diana@example.com', '555-3456', 404, '2023-06-20', '2023-06-30', 'Pending', 1, 'Requested extra bed');
+    ('Alice Brown', 'alice@example.com', '555-1234', 101, '2025-06-15', '2025-06-20', 'Confirmé', 3, 'Client VIP'),
+    ('Bob Wilson', 'bob@example.com', '555-5678', 202, '2025-06-18', '2025-06-25', 'Confirmé', 4, 'Arrivée tardive'),
+    ('Charlie Davis', 'charlie@example.com', '555-9012', 303, '2025-06-01', '2025-06-03', 'Parti', 3, ''),
+    ('Diana Evans', 'diana@example.com', '555-3456', 404, '2025-06-20', '2025-06-30', 'En attente', 3, 'Lit supplémentaire demandé');

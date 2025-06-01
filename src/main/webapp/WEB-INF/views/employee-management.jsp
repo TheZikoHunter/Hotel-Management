@@ -340,8 +340,14 @@
                                         <c:when test="${employee.role == 'admin'}">
                                             <span class="badge badge-admin">Admin</span>
                                         </c:when>
+                                        <c:when test="${employee.role == 'chef de réception'}">
+                                            <span class="badge badge-admin">Chef de Réception</span>
+                                        </c:when>
+                                        <c:when test="${employee.role == 'réceptionniste'}">
+                                            <span class="badge badge-staff">Réceptionniste</span>
+                                        </c:when>
                                         <c:otherwise>
-                                            <span class="badge badge-staff">Staff</span>
+                                            <span class="badge badge-staff">${employee.role}</span>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>

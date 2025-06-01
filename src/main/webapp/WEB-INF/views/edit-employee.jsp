@@ -181,7 +181,20 @@
                 <select id="role" name="role" required>
                     <option value="">Sélectionner le rôle</option>
                     <option value="admin" ${employee.role == 'admin' ? 'selected' : ''}>Admin</option>
-                    <option value="staff" ${employee.role == 'staff' ? 'selected' : ''}>Personnel</option>
+                    <option value="chef de réception" ${employee.role == 'chef de réception' ? 'selected' : ''}>Chef de Réception</option>
+                    <option value="réceptionniste" ${employee.role == 'réceptionniste' ? 'selected' : ''}>Réceptionniste</option>
+                    <option value="standardiste" ${employee.role == 'standardiste' ? 'selected' : ''}>Standardiste</option>
+                    <option value="voiturier" ${employee.role == 'voiturier' ? 'selected' : ''}>Voiturier</option>
+                    <option value="concierge" ${employee.role == 'concierge' ? 'selected' : ''}>Concierge</option>
+                    <option value="agent de sécurité" ${employee.role == 'agent de sécurité' ? 'selected' : ''}>Agent de Sécurité</option>
+                    <option value="bagagiste" ${employee.role == 'bagagiste' ? 'selected' : ''}>Bagagiste</option>
+                    <option value="guide" ${employee.role == 'guide' ? 'selected' : ''}>Guide</option>
+                    <option value="caissier" ${employee.role == 'caissier' ? 'selected' : ''}>Caissier</option>
+                    <option value="valet de chambre" ${employee.role == 'valet de chambre' ? 'selected' : ''}>Valet de Chambre</option>
+                    <option value="femme de chambre" ${employee.role == 'femme de chambre' ? 'selected' : ''}>Femme de Chambre</option>
+                    <option value="gouvernante" ${employee.role == 'gouvernante' ? 'selected' : ''}>Gouvernante</option>
+                    <option value="serveur d'étage" ${employee.role == 'serveur d\'étage' ? 'selected' : ''}>Serveur d'Étage</option>
+                    <option value="lingère" ${employee.role == 'lingère' ? 'selected' : ''}>Lingère</option>
                 </select>
             </div>
 

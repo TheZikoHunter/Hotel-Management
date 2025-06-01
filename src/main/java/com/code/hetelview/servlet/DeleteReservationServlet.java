@@ -39,14 +39,14 @@ public class DeleteReservationServlet extends HttpServlet {
     }
 
     /**
-     * Check if the user is a staff user (not an admin).
+     * Check if the user is a réceptionniste (can manage reservations).
      */
-    private boolean isStaffUser(HttpServletRequest request) {
+    private boolean isReceptionniste(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             Employee employee = (Employee) session.getAttribute("employee");
             if (employee != null) {
-                return !"admin".equals(employee.getRole());
+                return "réceptionniste".equals(employee.getRole());
             }
         }
         return false;
@@ -61,8 +61,8 @@ public class DeleteReservationServlet extends HttpServlet {
             return;
         }
 
-        // Check if user is staff (admins cannot delete reservations)
-        if (!isStaffUser(request)) {
+        // Check if user is réceptionniste (only réceptionnistes can delete reservations)
+        if (!isReceptionniste(request)) {
             response.sendRedirect("dashboard?error=Accès non autorisé");
             return;
         }

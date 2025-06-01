@@ -199,10 +199,10 @@
                 <p class="mt-1 text-sm text-gray-500">Gérer les réservations d'hôtel et les réservations des clients</p>
             </div>
             <div class="flex space-x-4">
-                <%-- Show employee management link only for admin users --%>
+                <%-- Show employee management link for admin and chef de réception --%>
                 <% 
                     com.code.hetelview.model.Employee currentEmployee = (com.code.hetelview.model.Employee) session.getAttribute("employee");
-                    if (currentEmployee != null && "admin".equalsIgnoreCase(currentEmployee.getRole())) {
+                    if (currentEmployee != null && ("admin".equals(currentEmployee.getRole()) || "chef de réception".equals(currentEmployee.getRole()))) {
                 %>
                 <a href="employee-management" class="bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium px-6 py-3 rounded-lg shadow-sm transition-all duration-150 ease-in-out flex items-center space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -211,8 +211,8 @@
                     <span>Gérer les Employés</span>
                 </a>
                 <% } %>
-                <%-- Show add reservation button only for staff users --%>
-                <% if (currentEmployee != null && "staff".equalsIgnoreCase(currentEmployee.getRole())) { %>
+                <%-- Show add reservation button only for réceptionniste --%>
+                <% if (currentEmployee != null && "réceptionniste".equals(currentEmployee.getRole())) { %>
                 <a href="add-reservation" class="bg-hotel-navy hover:bg-blue-800 text-white text-sm font-medium px-6 py-3 rounded-lg shadow-sm transition-all duration-150 ease-in-out flex items-center space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -312,7 +312,7 @@
                     <% } %>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <% if (currentEmployee != null && "staff".equalsIgnoreCase(currentEmployee.getRole())) { %>
+                    <% if (currentEmployee != null && "réceptionniste".equals(currentEmployee.getRole())) { %>
                     <div class="flex space-x-3">
                         <a href="edit-reservation?id=<%= reservation.getId() %>" class="action-button text-blue-600 hover:text-blue-900">Modifier</a>
                         <button type="button" class="action-button text-red-600 hover:text-red-900 border-none bg-transparent cursor-pointer delete-btn"

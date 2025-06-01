@@ -173,7 +173,20 @@
                 <select id="role" name="role" required>
                     <option value="">Sélectionner le rôle</option>
                     <option value="admin" ${param.role == 'admin' ? 'selected' : ''}>Admin</option>
-                    <option value="staff" ${param.role == 'staff' ? 'selected' : ''}>Personnel</option>
+                    <option value="chef de réception" ${param.role == 'chef de réception' ? 'selected' : ''}>Chef de Réception</option>
+                    <option value="réceptionniste" ${param.role == 'réceptionniste' ? 'selected' : ''}>Réceptionniste</option>
+                    <option value="standardiste" ${param.role == 'standardiste' ? 'selected' : ''}>Standardiste</option>
+                    <option value="voiturier" ${param.role == 'voiturier' ? 'selected' : ''}>Voiturier</option>
+                    <option value="concierge" ${param.role == 'concierge' ? 'selected' : ''}>Concierge</option>
+                    <option value="agent de sécurité" ${param.role == 'agent de sécurité' ? 'selected' : ''}>Agent de Sécurité</option>
+                    <option value="bagagiste" ${param.role == 'bagagiste' ? 'selected' : ''}>Bagagiste</option>
+                    <option value="guide" ${param.role == 'guide' ? 'selected' : ''}>Guide</option>
+                    <option value="caissier" ${param.role == 'caissier' ? 'selected' : ''}>Caissier</option>
+                    <option value="valet de chambre" ${param.role == 'valet de chambre' ? 'selected' : ''}>Valet de Chambre</option>
+                    <option value="femme de chambre" ${param.role == 'femme de chambre' ? 'selected' : ''}>Femme de Chambre</option>
+                    <option value="gouvernante" ${param.role == 'gouvernante' ? 'selected' : ''}>Gouvernante</option>
+                    <option value="serveur d'étage" ${param.role == 'serveur d\'étage' ? 'selected' : ''}>Serveur d'Étage</option>
+                    <option value="lingère" ${param.role == 'lingère' ? 'selected' : ''}>Lingère</option>
                 </select>
             </div>
 

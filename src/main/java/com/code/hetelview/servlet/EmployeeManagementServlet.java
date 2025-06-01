@@ -27,9 +27,9 @@ public class EmployeeManagementServlet extends HttpServlet {
     }
 
     /**
-     * Check if the current user is an admin.
+     * Check if the current user has permission to manage employees.
      */
-    private boolean isAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private boolean hasEmployeeManagementPermission(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false);
         
         if (session == null || session.getAttribute("employee") == null) {
@@ -38,8 +38,10 @@ public class EmployeeManagementServlet extends HttpServlet {
         }
         
         Employee currentEmployee = (Employee) session.getAttribute("employee");
-        if (!"admin".equalsIgnoreCase(currentEmployee.getRole())) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Accès refusé. Privilèges administrateur requis.");
+        String role = currentEmployee.getRole();
+        
+        if (!"admin".equals(role) && !"chef de réception".equals(role)) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Accès refusé. Privilèges administrateur ou chef de réception requis.");
             return false;
         }
         
@@ -47,11 +49,44 @@ public class EmployeeManagementServlet extends HttpServlet {
     }
 
     /**
+     * Check if the current user can manage a specific role.
+     */
+    private boolean canManageRole(HttpServletRequest request, String targetRole) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("employee") == null) {
+            return false;
+        }
+        
+        Employee currentEmployee = (Employee) session.getAttribute("employee");
+        String currentRole = currentEmployee.getRole();
+        
+        // Admin can manage all roles
+        if ("admin".equals(currentRole)) {
+            return true;
+        }
+        
+        // Chef de réception can manage specific roles
+        if ("chef de réception".equals(currentRole)) {
+            return "réceptionniste".equals(targetRole) ||
+                   "standardiste".equals(targetRole) ||
+                   "voiturier".equals(targetRole) ||
+                   "concierge".equals(targetRole) ||
+                   "chef de réception".equals(targetRole) ||
+                   "agent de sécurité".equals(targetRole) ||
+                   "bagagiste".equals(targetRole) ||
+                   "guide".equals(targetRole) ||
+                   "caissier".equals(targetRole);
+        }
+        
+        return false;
+    }
+
+    /**
      * Handles GET requests to display employee management page.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!isAdmin(request, response)) {
+        if (!hasEmployeeManagementPermission(request, response)) {
             return;
         }
 
@@ -83,7 +118,7 @@ public class EmployeeManagementServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!isAdmin(request, response)) {
+        if (!hasEmployeeManagementPermission(request, response)) {
             return;
         }
 
@@ -164,6 +199,13 @@ public class EmployeeManagementServlet extends HttpServlet {
             return;
         }
 
+        // Check if user can manage this role
+        if (!canManageRole(request, role.trim())) {
+            request.setAttribute("error", "Vous n'avez pas l'autorisation de créer un employé avec ce rôle");
+            request.getRequestDispatcher("/WEB-INF/views/add-employee.jsp").forward(request, response);
+            return;
+        }
+
         // Check if username already exists
         if (employeeDAO.getEmployeeByUsername(username) != null) {
             request.setAttribute("error", "Nom d'utilisateur déjà existant");
@@ -223,6 +265,14 @@ public class EmployeeManagementServlet extends HttpServlet {
                 return;
             }
 
+            // Check if user can manage both the current role and the new role
+            if (!canManageRole(request, employee.getRole()) || !canManageRole(request, role.trim())) {
+                request.setAttribute("error", "Vous n'avez pas l'autorisation de modifier cet employé ou ce rôle");
+                request.setAttribute("employee", employee);
+                request.getRequestDispatcher("/WEB-INF/views/edit-employee.jsp").forward(request, response);
+                return;
+            }
+
             // Check if username is being changed and if it already exists
             if (!employee.getUsername().equals(username.trim()) && 
                 employeeDAO.getEmployeeByUsername(username.trim()) != null) {
@@ -270,6 +320,21 @@ public class EmployeeManagementServlet extends HttpServlet {
         
         try {
             int id = Integer.parseInt(idParam);
+            
+            // Get the employee to be deleted
+            Employee employeeToDelete = employeeDAO.getEmployeeById(id);
+            if (employeeToDelete == null) {
+                request.setAttribute("error", "Employé introuvable");
+                listEmployees(request, response);
+                return;
+            }
+            
+            // Check if user can manage this employee's role
+            if (!canManageRole(request, employeeToDelete.getRole())) {
+                request.setAttribute("error", "Vous n'avez pas l'autorisation de supprimer cet employé");
+                listEmployees(request, response);
+                return;
+            }
             
             // Prevent deleting the current user
             HttpSession session = request.getSession();
