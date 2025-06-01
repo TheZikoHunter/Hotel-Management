@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,4 +185,113 @@ public class ReservationDAO {
 
         return success;
     }
+
+    /**
+     * Search reservations based on various criteria.
+     * 
+     * @param guestName Guest name to search for (partial match)
+     * @param guestEmail Guest email to search for (partial match)
+     * @param roomNumber Room number to filter by
+     * @param status Status to filter by
+     * @param checkInDateFrom Start date for check-in date range
+     * @param checkInDateTo End date for check-in date range
+     * @return List of reservations matching the criteria
+     */
+    public List<Reservation> searchReservations(String guestName, String guestEmail, 
+                                               Integer roomNumber, String status,
+                                               java.sql.Date checkInDateFrom, java.sql.Date checkInDateTo) {
+        Transaction transaction = null;
+        List<Reservation> reservations = new ArrayList<>();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Reservation> criteriaQuery = builder.createQuery(Reservation.class);
+            Root<Reservation> root = criteriaQuery.from(Reservation.class);
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            // Add search criteria based on provided parameters
+            if (guestName != null && !guestName.trim().isEmpty()) {
+                predicates.add(builder.like(builder.lower(root.get("guestName")), 
+                              "%" + guestName.toLowerCase() + "%"));
+            }
+
+            if (guestEmail != null && !guestEmail.trim().isEmpty()) {
+                predicates.add(builder.like(builder.lower(root.get("guestEmail")), 
+                              "%" + guestEmail.toLowerCase() + "%"));
+            }
+
+            if (roomNumber != null) {
+                predicates.add(builder.equal(root.get("roomNumber"), roomNumber));
+            }
+
+            if (status != null && !status.trim().isEmpty()) {
+                predicates.add(builder.equal(root.get("status"), status));
+            }
+
+            if (checkInDateFrom != null) {
+                predicates.add(builder.greaterThanOrEqualTo(root.get("checkInDate"), checkInDateFrom));
+            }
+
+            if (checkInDateTo != null) {
+                predicates.add(builder.lessThanOrEqualTo(root.get("checkInDate"), checkInDateTo));
+            }
+
+            // Apply predicates
+            if (!predicates.isEmpty()) {
+                criteriaQuery.where(predicates.toArray(new Predicate[0]));
+            }
+
+            // Order by check-in date DESC
+            criteriaQuery.select(root).orderBy(builder.desc(root.get("checkInDate")));
+
+            reservations = session.createQuery(criteriaQuery).getResultList();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.err.println("Error searching reservations!");
+            e.printStackTrace();
+        }
+
+        return reservations;
+    }
+
+    /**
+     * Get reservations by status.
+     * 
+     * @param status The status to filter by
+     * @return List of reservations with the specified status
+     */
+    public List<Reservation> getReservationsByStatus(String status) {
+        Transaction transaction = null;
+        List<Reservation> reservations = new ArrayList<>();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Reservation> criteriaQuery = builder.createQuery(Reservation.class);
+            Root<Reservation> root = criteriaQuery.from(Reservation.class);
+
+            criteriaQuery.select(root)
+                        .where(builder.equal(root.get("status"), status))
+                        .orderBy(builder.desc(root.get("checkInDate")));
+
+            reservations = session.createQuery(criteriaQuery).getResultList();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.err.println("Error retrieving reservations by status!");
+            e.printStackTrace();
+        }
+
+        return reservations;
+    }
+
 }

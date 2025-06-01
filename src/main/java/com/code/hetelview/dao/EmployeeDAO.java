@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Predicate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -267,4 +268,96 @@ public class EmployeeDAO {
 
         return success;
     }
+
+    /**
+     * Search employees based on various criteria.
+     * 
+     * @param username Username to search for (partial match)
+     * @param fullName Full name to search for (partial match)
+     * @param role Role to filter by
+     * @return List of employees matching the criteria
+     */
+    public List<Employee> searchEmployees(String username, String fullName, String role) {
+        Transaction transaction = null;
+        List<Employee> employees = new ArrayList<>();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Employee> criteriaQuery = builder.createQuery(Employee.class);
+            Root<Employee> root = criteriaQuery.from(Employee.class);
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            // Add search criteria based on provided parameters
+            if (username != null && !username.trim().isEmpty()) {
+                predicates.add(builder.like(builder.lower(root.get("username")), 
+                              "%" + username.toLowerCase() + "%"));
+            }
+
+            if (fullName != null && !fullName.trim().isEmpty()) {
+                predicates.add(builder.like(builder.lower(root.get("fullName")), 
+                              "%" + fullName.toLowerCase() + "%"));
+            }
+
+            if (role != null && !role.trim().isEmpty()) {
+                predicates.add(builder.equal(root.get("role"), role));
+            }
+
+            // Apply predicates
+            if (!predicates.isEmpty()) {
+                criteriaQuery.where(predicates.toArray(new Predicate[0]));
+            }
+
+            // Order by username
+            criteriaQuery.select(root).orderBy(builder.asc(root.get("username")));
+
+            employees = session.createQuery(criteriaQuery).getResultList();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.err.println("Error searching employees!");
+            e.printStackTrace();
+        }
+
+        return employees;
+    }
+
+    /**
+     * Get employees by role.
+     * 
+     * @param role The role to filter by
+     * @return List of employees with the specified role
+     */
+    public List<Employee> getEmployeesByRole(String role) {
+        Transaction transaction = null;
+        List<Employee> employees = new ArrayList<>();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Employee> criteriaQuery = builder.createQuery(Employee.class);
+            Root<Employee> root = criteriaQuery.from(Employee.class);
+
+            criteriaQuery.select(root)
+                        .where(builder.equal(root.get("role"), role))
+                        .orderBy(builder.asc(root.get("username")));
+
+            employees = session.createQuery(criteriaQuery).getResultList();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.err.println("Error retrieving employees by role!");
+            e.printStackTrace();
+        }
+
+        return employees;
+    }
+
 }

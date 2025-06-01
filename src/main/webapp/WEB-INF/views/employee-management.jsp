@@ -313,6 +313,65 @@
                 </div>
             </c:if>
 
+            <!-- Search Form -->
+            <div style="background: white; padding: 25px; margin-bottom: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <h3 style="margin-bottom: 20px; color: #495057; display: flex; align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px; margin-right: 8px; color: #667eea;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    Rechercher des Employés
+                </h3>
+                <form method="GET" action="employee-management" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; align-items: end;">
+                    <div>
+                        <label for="searchUsername" style="display: block; margin-bottom: 5px; font-weight: 500; color: #495057;">Nom d'utilisateur</label>
+                        <input type="text" id="searchUsername" name="searchUsername" value="${searchUsername != null ? searchUsername : ''}"
+                               style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px; font-size: 14px; transition: border-color 0.3s ease;"
+                               placeholder="Rechercher par nom d'utilisateur...">
+                    </div>
+                    <div>
+                        <label for="searchFullName" style="display: block; margin-bottom: 5px; font-weight: 500; color: #495057;">Nom complet</label>
+                        <input type="text" id="searchFullName" name="searchFullName" value="${searchFullName != null ? searchFullName : ''}"
+                               style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px; font-size: 14px; transition: border-color 0.3s ease;"
+                               placeholder="Rechercher par nom complet...">
+                    </div>
+                    <div>
+                        <label for="searchRole" style="display: block; margin-bottom: 5px; font-weight: 500; color: #495057;">Rôle</label>
+                        <select id="searchRole" name="searchRole" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px; font-size: 14px; background: white;">
+                            <option value="">Tous les rôles</option>
+                            <option value="admin" ${searchRole == 'admin' ? 'selected' : ''}>Admin</option>
+                            <option value="chef de réception" ${searchRole == 'chef de réception' ? 'selected' : ''}>Chef de réception</option>
+                            <option value="réceptionniste" ${searchRole == 'réceptionniste' ? 'selected' : ''}>Réceptionniste</option>
+                            <option value="standardiste" ${searchRole == 'standardiste' ? 'selected' : ''}>Standardiste</option>
+                            <option value="voiturier" ${searchRole == 'voiturier' ? 'selected' : ''}>Voiturier</option>
+                            <option value="concierge" ${searchRole == 'concierge' ? 'selected' : ''}>Concierge</option>
+                            <option value="agent de sécurité" ${searchRole == 'agent de sécurité' ? 'selected' : ''}>Agent de sécurité</option>
+                            <option value="femme de chambre" ${searchRole == 'femme de chambre' ? 'selected' : ''}>Femme de chambre</option>
+                            <option value="valet de chambre" ${searchRole == 'valet de chambre' ? 'selected' : ''}>Valet de chambre</option>
+                            <option value="gouvernante" ${searchRole == 'gouvernante' ? 'selected' : ''}>Gouvernante</option>
+                            <option value="serveur d'étage" ${searchRole == 'serveur d\'étage' ? 'selected' : ''}>Serveur d'étage</option>
+                            <option value="lingère" ${searchRole == 'lingère' ? 'selected' : ''}>Lingère</option>
+                            <option value="bagagiste" ${searchRole == 'bagagiste' ? 'selected' : ''}>Bagagiste</option>
+                            <option value="guide" ${searchRole == 'guide' ? 'selected' : ''}>Guide</option>
+                            <option value="caissier" ${searchRole == 'caissier' ? 'selected' : ''}>Caissier</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px 20px; border: none; border-radius: 5px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 16px; height: 16px; margin-right: 5px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            Rechercher
+                        </button>
+                        <a href="employee-management" style="background: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-weight: 500; text-decoration: none; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 16px; height: 16px; margin-right: 5px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Effacer
+                        </a>
+                    </div>
+                </form>
+            </div>
+
             <div class="actions">
                 <h2>Tous les Employés</h2>
                 <a href="employee-management?action=add" class="btn">+ Ajouter un Nouvel Employé</a>

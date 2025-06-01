@@ -255,6 +255,72 @@
     </div>
     <% } %>
 
+    <!-- Search Form -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-6">
+        <div class="p-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-hotel-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                Rechercher des Réservations
+            </h3>
+            <form method="GET" action="dashboard" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label for="searchGuestName" class="block text-sm font-medium text-gray-700 mb-1">Nom du Client</label>
+                    <input type="text" id="searchGuestName" name="searchGuestName" value="<%= request.getAttribute("searchGuestName") != null ? request.getAttribute("searchGuestName") : "" %>"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-hotel-navy focus:border-hotel-navy"
+                           placeholder="Rechercher par nom...">
+                </div>
+                <div>
+                    <label for="searchGuestEmail" class="block text-sm font-medium text-gray-700 mb-1">Email du Client</label>
+                    <input type="email" id="searchGuestEmail" name="searchGuestEmail" value="<%= request.getAttribute("searchGuestEmail") != null ? request.getAttribute("searchGuestEmail") : "" %>"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-hotel-navy focus:border-hotel-navy"
+                           placeholder="Rechercher par email...">
+                </div>
+                <div>
+                    <label for="searchRoomNumber" class="block text-sm font-medium text-gray-700 mb-1">Numéro de Chambre</label>
+                    <input type="number" id="searchRoomNumber" name="searchRoomNumber" value="<%= request.getAttribute("searchRoomNumber") != null ? request.getAttribute("searchRoomNumber") : "" %>"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-hotel-navy focus:border-hotel-navy"
+                           placeholder="Ex: 101">
+                </div>
+                <div>
+                    <label for="searchStatus" class="block text-sm font-medium text-gray-700 mb-1">Statut</label>
+                    <select id="searchStatus" name="searchStatus" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-hotel-navy focus:border-hotel-navy">
+                        <option value="">Tous les statuts</option>
+                        <option value="confirmed" <%= "confirmed".equals(request.getAttribute("searchStatus")) ? "selected" : "" %>>Confirmé</option>
+                        <option value="checked-in" <%= "checked-in".equals(request.getAttribute("searchStatus")) ? "selected" : "" %>>Arrivé</option>
+                        <option value="checked-out" <%= "checked-out".equals(request.getAttribute("searchStatus")) ? "selected" : "" %>>Parti</option>
+                        <option value="cancelled" <%= "cancelled".equals(request.getAttribute("searchStatus")) ? "selected" : "" %>>Annulé</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="searchCheckInFrom" class="block text-sm font-medium text-gray-700 mb-1">Date d'arrivée (de)</label>
+                    <input type="date" id="searchCheckInFrom" name="searchCheckInFrom" value="<%= request.getAttribute("searchCheckInFrom") != null ? request.getAttribute("searchCheckInFrom") : "" %>"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-hotel-navy focus:border-hotel-navy">
+                </div>
+                <div>
+                    <label for="searchCheckInTo" class="block text-sm font-medium text-gray-700 mb-1">Date d'arrivée (à)</label>
+                    <input type="date" id="searchCheckInTo" name="searchCheckInTo" value="<%= request.getAttribute("searchCheckInTo") != null ? request.getAttribute("searchCheckInTo") : "" %>"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-hotel-navy focus:border-hotel-navy">
+                </div>
+                <div class="md:col-span-2 lg:col-span-3 flex gap-3">
+                    <button type="submit" class="bg-hotel-navy hover:bg-blue-800 text-white px-6 py-2 rounded-md shadow-sm transition-all duration-150 ease-in-out flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        Rechercher
+                    </button>
+                    <a href="dashboard" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md shadow-sm transition-all duration-150 ease-in-out flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Effacer
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Reservations Table -->
     <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
         <table class="min-w-full divide-y divide-gray-200 table-hover">

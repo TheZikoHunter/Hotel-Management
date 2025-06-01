@@ -73,6 +73,8 @@ public class EmployeeManagementServlet extends HttpServlet {
                    "concierge".equals(targetRole) ||
                    "chef de réception".equals(targetRole) ||
                    "agent de sécurité".equals(targetRole) ||
+                   "femme de chambre".equals(targetRole) ||
+                   "gouvernante".equals(targetRole) ||
                    "bagagiste".equals(targetRole) ||
                    "guide".equals(targetRole) ||
                    "caissier".equals(targetRole);
@@ -136,11 +138,35 @@ public class EmployeeManagementServlet extends HttpServlet {
     }
 
     /**
-     * List all employees.
+     * List employees (with optional search functionality).
      */
     private void listEmployees(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Employee> employees = employeeDAO.getAllEmployees();
+        // Get search parameters
+        String searchUsername = request.getParameter("searchUsername");
+        String searchFullName = request.getParameter("searchFullName");
+        String searchRole = request.getParameter("searchRole");
+
+        List<Employee> employees;
+
+        // Check if any search parameters are provided
+        boolean hasSearchParams = (searchUsername != null && !searchUsername.trim().isEmpty()) ||
+                                 (searchFullName != null && !searchFullName.trim().isEmpty()) ||
+                                 (searchRole != null && !searchRole.trim().isEmpty());
+
+        if (hasSearchParams) {
+            // Perform search
+            employees = employeeDAO.searchEmployees(searchUsername, searchFullName, searchRole);
+        } else {
+            // No search parameters, get all employees
+            employees = employeeDAO.getAllEmployees();
+        }
+
+        // Set attributes for JSP
         request.setAttribute("employees", employees);
+        request.setAttribute("searchUsername", searchUsername);
+        request.setAttribute("searchFullName", searchFullName);
+        request.setAttribute("searchRole", searchRole);
+        
         request.getRequestDispatcher("/WEB-INF/views/employee-management.jsp").forward(request, response);
     }
 

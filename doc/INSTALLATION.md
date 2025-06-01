@@ -50,7 +50,7 @@ sudo mariadb
 git clone git@github.com:TheZikoHunter/Hotel-Management.git
 ```
 
-## Configuration de la base de données
+## 3. Configuration de la base de données
 1. Créer une base de données et un utilisateur MySQL (utiliser le terminal ou un éditeur de bases de données - recommendation DBeaver):
 ```sql
 CREATE DATABASE hotel;
@@ -65,3 +65,13 @@ db.url=jdbc:mysql://localhost:3306/hotel?useSSL=false&serverTimezone=UTC&allowPu
 db.username=admin
 db.password=admin_pass
 ```
+## 4. Lancement de l'application
+Vous vous déplacer dans le répertoire principale (contenant un fichier pom.xml) et vous exécutez ses commandes :
+```shell
+mvn clean install
+mvn clean compile
+mvn clean package cargo:run
+```
+Rendez vous sur [localhost](http://localhost:8080/hotel).
+
+Passer au manuel d'utilisation pour savoire comment utiliser l'application.
