@@ -33,10 +33,15 @@ public class AddReservationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-
         if (session == null || session.getAttribute("employee") == null) {
-
             response.sendRedirect("login");
+            return;
+        }
+
+        // Check if user is staff (not admin)
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (!"staff".equalsIgnoreCase(employee.getRole())) {
+            response.sendRedirect("dashboard?error=Access denied. Only staff members can add reservations.");
             return;
         }
 
@@ -54,6 +59,13 @@ public class AddReservationServlet extends HttpServlet {
         if (session == null || session.getAttribute("employee") == null) {
             // User is not logged in, redirect to login page
             response.sendRedirect("login");
+            return;
+        }
+
+        // Check if user is staff (not admin)
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (!"staff".equalsIgnoreCase(employee.getRole())) {
+            response.sendRedirect("dashboard?error=Access denied. Only staff members can add reservations.");
             return;
         }
 
@@ -95,9 +107,6 @@ public class AddReservationServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/views/add-reservation.jsp").forward(request, response);
                 return;
             }
-
-            // Get employee from session
-            Employee employee = (Employee) session.getAttribute("employee");
 
             // Create reservation object
             Reservation reservation = new Reservation();

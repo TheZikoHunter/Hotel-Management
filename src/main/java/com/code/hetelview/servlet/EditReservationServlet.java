@@ -41,11 +41,30 @@ public class EditReservationServlet extends HttpServlet {
     }
 
     /**
+     * Check if the user is staff (not admin) and authorized to edit reservations.
+     */
+    private boolean isAuthorizedStaff(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+        
+        if (!isAuthenticated(request, response)) {
+            return false;
+        }
+        
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (!"staff".equalsIgnoreCase(employee.getRole())) {
+            response.sendRedirect("dashboard?error=Access denied. Only staff members can edit reservations.");
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
      * Handles GET requests to show the edit reservation form.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!isAuthenticated(request, response)) {
+        if (!isAuthorizedStaff(request, response)) {
             return;
         }
 
@@ -77,7 +96,7 @@ public class EditReservationServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!isAuthenticated(request, response)) {
+        if (!isAuthorizedStaff(request, response)) {
             return;
         }
 

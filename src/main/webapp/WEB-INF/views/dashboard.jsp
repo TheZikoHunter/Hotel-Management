@@ -211,12 +211,15 @@
                     <span>Manage Employees</span>
                 </a>
                 <% } %>
+                <%-- Show add reservation button only for staff users --%>
+                <% if (currentEmployee != null && "staff".equalsIgnoreCase(currentEmployee.getRole())) { %>
                 <a href="add-reservation" class="bg-hotel-navy hover:bg-blue-800 text-white text-sm font-medium px-6 py-3 rounded-lg shadow-sm transition-all duration-150 ease-in-out flex items-center space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                     </svg>
                     <span>Add New Reservation</span>
                 </a>
+                <% } %>
             </div>
         </div>
     </div>
@@ -309,11 +312,15 @@
                     <% } %>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <% if (currentEmployee != null && "staff".equalsIgnoreCase(currentEmployee.getRole())) { %>
                     <div class="flex space-x-3">
                         <a href="edit-reservation?id=<%= reservation.getId() %>" class="action-button text-blue-600 hover:text-blue-900">Edit</a>
                         <button type="button" class="action-button text-red-600 hover:text-red-900 border-none bg-transparent cursor-pointer delete-btn"
                                 data-id="<%= reservation.getId() %>" data-name="<%= reservation.getGuestName() %>">Delete</button>
                     </div>
+                    <% } else { %>
+                    <span class="text-sm text-gray-500 italic">View only</span>
+                    <% } %>
                 </td>
             </tr>
             <%

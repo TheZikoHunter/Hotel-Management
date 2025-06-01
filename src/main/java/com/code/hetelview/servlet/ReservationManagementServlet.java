@@ -1,6 +1,7 @@
 package com.code.hetelview.servlet;
 
 import com.code.hetelview.dao.ReservationDAO;
+import com.code.hetelview.model.Employee;
 import com.code.hetelview.model.Reservation;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,11 +41,30 @@ public class ReservationManagementServlet extends HttpServlet {
     }
 
     /**
+     * Check if the user is staff (not admin) and authorized for reservation management operations.
+     */
+    private boolean isAuthorizedStaff(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+        
+        if (!isAuthenticated(request, response)) {
+            return false;
+        }
+        
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (!"staff".equalsIgnoreCase(employee.getRole())) {
+            response.sendRedirect("dashboard?error=Access denied. Only staff members can manage reservations.");
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
      * Handles GET requests for reservation management operations.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!isAuthenticated(request, response)) {
+        if (!isAuthorizedStaff(request, response)) {
             return;
         }
 
@@ -62,7 +82,7 @@ public class ReservationManagementServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!isAuthenticated(request, response)) {
+        if (!isAuthorizedStaff(request, response)) {
             return;
         }
 
